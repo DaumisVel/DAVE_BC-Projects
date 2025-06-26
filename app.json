@@ -1,0 +1,33 @@
+{
+  "id": "216be22a-42fb-4bbb-ac5b-ecc33746cb5a",
+  "name": "Akademija1",
+  "publisher": "DAVE",
+  "version": "0.0.0.1",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "platform": "26.0.0.0",
+  "application": "26.2.0.0",
+  "runtime": "13.0",
+  "dependencies": [],
+  "screenshots": [],
+  "idRanges": [
+    {
+      "from": 65000,
+      "to": 65999
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  
+  "features": [
+    "NoImplicitWith"
+  ]
+}

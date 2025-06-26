@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+        "name": "Publish & Open Launcher Page",
+        "type": "al",
+        "request": "launch",
+        "startupObjectType": "Page",
+        "startupObjectId": 65001,
+        "environmentType": "Sandbox",
+        "environmentName": "dev-aka3",
+        "breakOnError": "All",
+        }
+
+    ]
+}
