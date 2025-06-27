@@ -12,7 +12,7 @@ page 65001 "My Task List"
         {
             repeater(Group)
             {
-                field("ID"; Rec.ID) { ApplicationArea = All; } // "ID" field does not exist in the source table
+                field("ID"; Rec.ID) { ApplicationArea = All; }
                 field("Name"; Rec."User ID") { ApplicationArea = All; }
                 field("Task Type"; Rec."Task Type") { ApplicationArea = All; }
                 field("Input Text"; Rec."Input Text") { ApplicationArea = All; }

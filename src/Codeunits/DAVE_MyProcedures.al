@@ -77,8 +77,6 @@ codeunit 65000 MyProcedures
     begin
         for i := 1 to StrLen(InputText) do begin
             Char := InputText[i];
-
-            // Normalize to lowercase for easier comparison
             LowerChar := LowerCase(Format(Char)) [1];
 
             if LowerChar in ['a', 'ą', 'e', 'ę', 'ė', 'i', 'į', 'y', 'o', 'u', 'ų', 'ū'] then
@@ -100,7 +98,7 @@ codeunit 65000 MyProcedures
         i: Integer;
     begin
         for i := 1 to Length do
-            RandomArray.Add(Random(1000)); // adjust max value as needed
+            RandomArray.Add(Random(1000));
 
         exit(RandomArray);
     end;
