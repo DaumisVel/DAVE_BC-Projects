@@ -24,12 +24,18 @@ page 65002 "My Task Card"
                 field("Input Text"; Rec."Input Text")
                 {
                     ApplicationArea = All;
+                    MultiLine = true;
                     Editable = (Rec."Result Text" = '') and
                                (Rec."Task Type" <> Rec."Task Type"::FindMinMax) and
                                (Rec."Task Type" <> Rec."Task Type"::FindDuplicates);
 
                 }
-                field("Result Text"; Rec."Result Text") { ApplicationArea = All; Editable = false; }
+                field("Result Text"; Rec."Result Text")
+                {
+                    ApplicationArea = All;
+                    MultiLine = true;
+                    Editable = false;
+                }
             }
         }
     }
