@@ -7,15 +7,17 @@ codeunit 65003 TaskProcessor
         Result: Text;
         MyProcedures: Codeunit MyProcedures;
     begin
+        if TaskRec."Task Type" in [TaskRec."Task Type"::ReverseText, TaskRec."Task Type"::CountVowelsConsonants] then
+            TaskRec.TestField("Input Text");
         case TaskRec."Task Type" of
             TaskType::ReverseText:
                 Result := MyProcedures.ReverseText(TaskRec."Input Text");
-
-
-            //TaskRec."Task Type"::"Count Vowels":
-            //     Result := Format(CountVowels(TaskRec."Input Text"));
-
-            // Add more task types here if needed
+            TaskType::FindMinMax:
+                Result := MyProcedures.FindMinMax();
+            TaskType::FindDuplicates:
+                Result := MyProcedures.FindDuplicates();
+            TaskType::CountVowelsConsonants:
+                Result := MyProcedures.CountVowelsAndConsonants(TaskRec."Input Text");
 
             else
                 Result := 'Unsupported task type.';

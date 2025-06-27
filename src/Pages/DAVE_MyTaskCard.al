@@ -11,10 +11,24 @@ page 65002 "My Task Card"
         {
             group("Task Details")
             {
-                field("ID"; Rec."ID") { ApplicationArea = All; Editable = false; }
-                field("Name"; Rec."User ID") { ApplicationArea = All; Editable = false; }
-                field("Task Type"; Rec."Task Type") { ApplicationArea = All; Editable = (Rec."Result Text" = ''); }
-                field("Input Text"; Rec."Input Text") { ApplicationArea = All; Editable = (Rec."Result Text" = ''); }
+                field("Task Type"; Rec."Task Type")
+                {
+                    ApplicationArea = All;
+                    Editable = (Rec."Result Text" = '');
+                    trigger OnValidate()
+                    begin
+                        if Rec."Task Type" in [Rec."Task Type"::FindMinMax, Rec."Task Type"::FindDuplicates] then
+                            Rec."Input Text" := '';
+                    end;
+                }
+                field("Input Text"; Rec."Input Text")
+                {
+                    ApplicationArea = All;
+                    Editable = (Rec."Result Text" = '') and
+                               (Rec."Task Type" <> Rec."Task Type"::FindMinMax) and
+                               (Rec."Task Type" <> Rec."Task Type"::FindDuplicates);
+
+                }
                 field("Result Text"; Rec."Result Text") { ApplicationArea = All; Editable = false; }
             }
         }
@@ -38,8 +52,6 @@ page 65002 "My Task Card"
                 begin
                     Message('Processing Task %1 of type %2', Rec."ID", Rec."Task Type");
                     TaskProcessor.ProcessTask(Rec);
-                    //CurrPage.Update(); // This refreshes the page to show the new result
-                    // Call your logic here: e.g. TaskProcessor.ProcessTask(Rec);
                 end;
             }
         }
