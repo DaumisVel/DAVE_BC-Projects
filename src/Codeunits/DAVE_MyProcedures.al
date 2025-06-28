@@ -99,7 +99,6 @@ codeunit 65000 MyProcedures
     begin
         for i := 1 to Length do
             RandomArray.Add(Random(1000));
-
         exit(RandomArray);
     end;
 
