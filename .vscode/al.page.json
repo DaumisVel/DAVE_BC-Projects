@@ -1,9 +1,0 @@
-{
-  "Type": "Codeunit",
-  "Id": 65000,
-  "Name": "My New Codeunit",
-  "Prefix": "",
-  "Suffix": "",
-  "Fields": [],
-  "Code": "codeunit %Id% \"%Name%\"\n{\n    trigger OnRun()\n    begin\n        Message('Hello from template!');\n    end;\n}"
-}
