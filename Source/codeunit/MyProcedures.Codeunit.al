@@ -32,10 +32,10 @@ codeunit 65000 DAVEMyProcedures
             if i < MinVal then
                 MinVal := i;
             if i > MaxVal then
-                exit(StrSubstNo(MinMaxOutputFormatTxt, MinVal, MaxVal));
+                MaxVal := i;
         end;
 
-        exit(MinMaxOutputFormatTxt);
+        exit(StrSubstNo(MinMaxOutputFormatTxt, MinVal, MaxVal));
     end;
 
     procedure FindDuplicates(): Text
@@ -99,7 +99,7 @@ codeunit 65000 DAVEMyProcedures
         i: Integer;
     begin
         for i := 1 to Length do
-            RandomArray.Add(Random(1000));
+            RandomArray.Add(Random(10));
         exit(RandomArray);
     end;
 

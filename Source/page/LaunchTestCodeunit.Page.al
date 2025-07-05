@@ -3,6 +3,8 @@ page 65000 "DAVELaunch Test Codeunit"
     PageType = Card;
     ApplicationArea = All;
     SourceTable = Customer;
+    UsageCategory = None;
+    Caption = 'Launch Test Codeunit';
 
     actions
     {
@@ -12,6 +14,7 @@ page 65000 "DAVELaunch Test Codeunit"
             {
                 Caption = 'Run Debug Demo';
                 Tooltip = 'Runs the debug demo codeunit.'; // Added Tooltip property
+                Image = Debug; // Added Image property
                 trigger OnAction()
                 var
                     Debugger: Codeunit "DAVEDebug Demo";
