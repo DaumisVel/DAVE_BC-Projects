@@ -2,6 +2,7 @@ table 65000 "DAVETask"
 {
 
     DataClassification = ToBeClassified;
+    Caption = 'DAVE Task';
 
     fields
     {

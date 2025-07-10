@@ -4,6 +4,7 @@ page 65002 "DAVEMy Task Card"
     SourceTable = DAVETask;
     ApplicationArea = All;
     UsageCategory = Tasks;
+    Caption = 'My Task Card';
 
     layout
     {

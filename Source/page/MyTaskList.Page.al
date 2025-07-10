@@ -5,6 +5,7 @@ page 65001 "DAVEMy Task List"
     CardPageId = "DAVEMy Task Card";
     ApplicationArea = All;
     UsageCategory = Lists;
+    Caption = 'My Tasks';
 
     layout
     {
