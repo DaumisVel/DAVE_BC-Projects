@@ -90,8 +90,61 @@ codeunit 65000 DAVEMyProcedures
         exit(StrSubstNo(VowelConsonantOutputFormatTxt, VowelCount, ConsonantCount));
     end;
 
+    procedure ResetValidationRules()
+    var
+        Rule: Record DAVEPCValidationRules;
+        ResetMsg: Label 'This will reset your validation rules to default. Continue?';
+    begin
+        if Confirm(ResetMsg, true) then
+            Rule.DeleteAll();
+        Rule.Init();
+        Rule."Code" := 'BIRTH_DATE';
+        Rule."Caption" := 'Must contain valid birth date';
+        Rule."Execution Code" := 'CHECK_DATE';
+        Rule."Is Active" := true;
+        Rule."Importance" := DAVEPCRuleImportance::Tier3;
+        Rule.Insert(true);
 
+        Rule.Init();
+        Rule."Code" := 'CENTURY';
+        Rule."Caption" := 'First digit must be 1-6';
+        Rule."Execution Code" := 'CHECK_CENTURY';
+        Rule."Is Active" := true;
+        Rule."Importance" := DAVEPCRuleImportance::Tier2;
+        Rule.Insert(true);
 
+        Rule.Init();
+        Rule."Code" := 'LENGTH';
+        Rule."Caption" := 'Code must be 11 digits';
+        Rule."Execution Code" := 'CHECK_LENGTH';
+        Rule."Is Active" := true;
+        Rule."Importance" := DAVEPCRuleImportance::Tier1;
+        Rule.Insert(true);
+
+        Rule.Init();
+        Rule."Code" := 'NUMERIC';
+        Rule."Caption" := 'Code must contain only digits';
+        Rule."Execution Code" := 'CHECK_NUMERIC';
+        Rule."Is Active" := true;
+        Rule."Importance" := DAVEPCRuleImportance::Tier1;
+        Rule.Insert(true);
+
+        Rule.Init();
+        Rule."Code" := 'BIRTH_NO';
+        Rule."Caption" := '8-10th digits must be a valid number (001-999)';
+        Rule."Execution Code" := 'CHECK_NO';
+        Rule."Is Active" := true;
+        Rule."Importance" := DAVEPCRuleImportance::Tier2;
+        Rule.Insert(true);
+
+        Rule.Init();
+        Rule."Code" := 'SUM';
+        Rule."Caption" := 'Checksum digit must be valid';
+        Rule."Execution Code" := 'CHECK_CHECKSUM';
+        Rule."Is Active" := true;
+        Rule."Importance" := DAVEPCRuleImportance::Tier4;
+        Rule.Insert(true);
+    end;
 
     local procedure GenerateRandomIntArray(Length: Integer): List of [Integer]
     var

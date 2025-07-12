@@ -18,7 +18,6 @@ codeunit 65003 DAVETaskProcessor
                 Result := MyProcedures.FindDuplicates();
             DAVETaskType::CountVowelsConsonants:
                 Result := MyProcedures.CountVowelsAndConsonants(TaskRec."Input Text");
-
             else
                 Result := 'Unsupported task type.';
         end;
@@ -26,6 +25,4 @@ codeunit 65003 DAVETaskProcessor
         TaskRec."Result Text" := CopyStr(Result, 1, 250);
         TaskRec.Modify();
     end;
-
-
 }

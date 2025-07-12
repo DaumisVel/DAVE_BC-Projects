@@ -38,28 +38,27 @@ page 65003 "DAVEPCValidationCard"
                 Caption = 'Check Personal Code';
                 Image = Check;
                 ToolTip = 'Validate the personal code entered in the field.';
-
+                Enabled = not Rec."Has Been Checked";
                 trigger OnAction()
                 var
-                    Validator: Codeunit "DAVEPCValidator";
-                    CodeCheckedErr: Label 'Cannot perform validation. Entry has already been checked.';
-                    CodeValidMsg: Label 'Validation complete. Code is valid.';
-                    CodeInvalidMsg: Label 'Validation complete. Code is invalid.';
+                    Validator: Codeunit DAVEPCValidator;
+                    CodeValidMsg: Label 'Personal code is valid';
+                    CodeInvalidMsg: Label 'Personal code is invalid';
+
                 begin
-                    if Rec."Has Been Checked" then
-                        Error(CodeCheckedErr);
-
-                    if Validator.IsPersonalCodeValid(Rec) then
-                        Message(CodeValidMsg)
-                    else
+                    Validator.ValidateCode(Rec);
+                    if Validator.AllRulesPassed(Rec."Entry No.") then begin
+                        Message(CodeValidMsg);
+                        Rec."Is Valid" := true;
+                    end
+                    else begin
                         Message(CodeInvalidMsg);
-
+                        Rec."Is Valid" := false;
+                    end;
                     Rec."Has Been Checked" := true;
-                    Rec.Modify();
-                    CurrPage.Update();
+                    Rec.Modify(true);
                 end;
             }
         }
     }
-    var
 }

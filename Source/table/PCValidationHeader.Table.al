@@ -11,10 +11,12 @@ table 65001 "DAVEPCValidationHeader"
         {
             trigger OnValidate()
             var
-                ModifyErrorLbl: Label 'Personal code cannot be modified after it has been checked.';
+                ModifyMsg: Label 'Personal code cannot be modified after it has been checked.';
             begin
-                if "Has Been Checked" then
-                    Error(ModifyErrorLbl);
+                if "Has Been Checked" then begin
+                    Message(ModifyMsg);
+                    "Personal Code" := xRec."Personal Code";
+                end;
             end;
         }
         field(12; "Is Valid"; Boolean) { }
@@ -29,7 +31,7 @@ table 65001 "DAVEPCValidationHeader"
         {
             Caption = 'Broken Rules';
             DataClassification = ToBeClassified;
-            ToolTip = 'List of validation rules that were broken during the check.';
+            ToolTip = 'List of validation rule codes, that were broken during the check.';
         }
     }
 

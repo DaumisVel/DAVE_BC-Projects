@@ -4,12 +4,8 @@ page 65004 "DAVEPCValidations"
     SourceTable = "DAVEPCValidationHeader";
     SourceTableView = where("Has Been Checked" = const(true));
     Caption = 'Personal Code Validations';
-    Editable = false;
     UsageCategory = Lists;
     ApplicationArea = All;
-    Permissions =
-        tabledata DAVEPCValidationHeader = R;
-
     layout
     {
         area(content)

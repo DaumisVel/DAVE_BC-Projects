@@ -12,7 +12,7 @@ table 65002 DAVEPCValidationLines
             TableRelation = "DAVEPCValidationHeader"."Entry No.";
         }
         field(2; "Line No."; Integer) { }
-        field(11; "Rule Code"; Enum "DAVEPCRuleType")
+        field(11; "Rule Code"; Code[20])
         {
             Caption = 'Broken Rule Code';
             DataClassification = ToBeClassified;
@@ -23,6 +23,12 @@ table 65002 DAVEPCValidationLines
             Caption = 'Broken Rule Description';
             DataClassification = ToBeClassified;
             ToolTip = 'Description of the validation rule applied to the personal code.';
+        }
+        field(13; Result; Enum "DAVEPCRuleResult")
+        {
+            Caption = 'Validation Result';
+            DataClassification = ToBeClassified;
+            ToolTip = 'Result of the validation rule check.';
         }
 
     }
