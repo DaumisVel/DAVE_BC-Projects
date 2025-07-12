@@ -1,9 +1,0 @@
-{
-    "name": "Project ruleset",
-    "includedRuleSets": [
-        {
-            "action": "Default",
-            "path": "https://alrulesets.blob.core.windows.net/al-rulesets/company.ruleset.json"
-        }
-    ]
-}
