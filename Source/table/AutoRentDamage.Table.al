@@ -4,6 +4,8 @@ table 65018 "DAVEAutoRentDamage"
     DataClassification = CustomerContent;
     LookupPageId = "DAVEAutoRentDamageList";
     DrillDownPageId = "DAVEAutoRentDamageList";
+    Permissions = tabledata DAVEAutoRentDamage=R;
+
 
     fields
     {

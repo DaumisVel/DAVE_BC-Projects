@@ -9,8 +9,7 @@ table 65010 DAVEAutoSetup
         {
             Caption = 'Setup Key';
             ToolTip = 'Internal key to identify the setup record.';
-            NotBlank = true;
-            InitValue = 'AUTOSETUP';
+            AllowInCustomizations = Never;
         }
         field(10; CarNoSeries; Code[20])
         {

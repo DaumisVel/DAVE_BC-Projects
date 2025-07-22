@@ -2,6 +2,10 @@ table 65017 "DAVEAutoRentLine"
 {
     Caption = 'Vehicle Rental Line';
     DataClassification = CustomerContent;
+    Permissions = tabledata Item=R,
+                  tabledata Resource=R,
+                  tabledata DAVEAutoRentLine=R;
+
 
     fields
     {

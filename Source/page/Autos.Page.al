@@ -17,6 +17,11 @@ page 65013 "DAVEAutos"
                 field(MarkCode; Rec."MarkCode") { }
                 field(ModelCode; Rec."ModelCode") { }
                 field(ManufactureYear; Rec."ManufactureYear") { }
+                field(InsuranceValidUntil;Rec.InsuranceValidUntil) { }
+                field(TechnicalInspectionValidUntil;Rec.TechnicalInspectionValidUntil) { }
+                field(LocationCode;Rec.LocationCode) { }
+                field(RentalResource;Rec.RentalResource) { }
+                field(RentalPrice;Rec.RentalPrice) { }
             }
             part(Reservations; "DAVEAutoReservations")
             {
@@ -34,7 +39,13 @@ page 65013 "DAVEAutos"
                 ToolTip = 'Open the auto card.';
                 Caption = 'Card';
                 Image = Card;
-                RunObject = page "DAVEAutoCard";
+                trigger OnAction()
+                var
+                    DAVEAutoCard: Page DAVEAutoCard;
+                begin
+                    DAVEAutoCard.SetRecord(Rec);
+                    DAVEAutoCard.Run();
+                end;
             }
         }
 

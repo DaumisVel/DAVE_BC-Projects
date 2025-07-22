@@ -4,6 +4,7 @@ table 65013 "DAVEAuto"
     DataClassification = CustomerContent;
     LookupPageId = DAVEAutos;
     DrillDownPageId = DAVEAutos;
+    Permissions = tabledata DAVEAutoSetup=RI;
 
     fields
     {
@@ -54,13 +55,14 @@ table 65013 "DAVEAuto"
         {
             Caption = 'Rental Service Resoruce';
             ToolTip = 'Specifies the rental service resource.';
-            TableRelation = Resource."No.";
+            TableRelation = Resource;
         }
         field (18; "No. Series"; Code[20])
         {
             Caption = 'No. Series';
             Editable = false;
             TableRelation = "No. Series";
+            AllowInCustomizations = Never;
         }
         field(50; RentalPrice; Decimal)
         {
@@ -88,6 +90,10 @@ table 65013 "DAVEAuto"
         AutoSetup: Record DAVEAutoSetup;
         NoSeries: Codeunit "No. Series";
     begin
+        if AutoSetup.IsEmpty() then begin
+            AutoSetup.Init();
+            AutoSetup.Insert(false);
+        end;
         AutoSetup.Get();
         "No. Series" := AutoSetup.CarNoSeries;
         "No." := NoSeries.GetNextNo("No. Series");

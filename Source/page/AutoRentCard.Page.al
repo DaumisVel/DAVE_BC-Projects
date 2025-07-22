@@ -3,7 +3,7 @@ page 65019 "DAVEAutoRentCard"
     PageType = Card;
     SourceTable = DAVEAutoRentHeader;
     Caption = 'Auto Rent Card';
-    UsageCategory = Documents;
+    UsageCategory = Administration;
     ApplicationArea = All;
 
     layout
@@ -56,6 +56,19 @@ page 65019 "DAVEAutoRentCard"
             {
                 SubPageLink = "DocumentNo" = field("No.");
                 Caption = 'Rental Lines';
+            }
+        }
+    }
+    actions
+    {
+        area(Processing)
+        {
+            action(ChangeStatus)
+            {
+                Caption = 'Open Rental';
+                ToolTip = 'Open the rental document.';
+                Image = Card;
+                RunObject = page "DAVEAutoRentCard";
             }
         }
     }

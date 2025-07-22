@@ -4,8 +4,7 @@ table 65014 "DAVEAutoReservation"
     LookupPageId = "DAVEAutoReservations";
     DrillDownPageId = "DAVEAutoReservations";
     DataClassification = CustomerContent;
-    Permissions =
-        tabledata DAVEAutoReservation = R;
+    Permissions = tabledata DAVEAutoReservation=R;
 
     fields
     {

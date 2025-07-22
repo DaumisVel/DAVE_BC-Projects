@@ -4,6 +4,8 @@ table 65016 "DAVEAutoRentHeader"
     LookupPageId = "DAVEAutoRentList";
     DrillDownPageId = "DAVEAutoRentList";
     DataClassification = CustomerContent;
+    Permissions = tabledata DAVEAutoSetup=RI;
+
 
     fields
     {
@@ -19,6 +21,7 @@ table 65016 "DAVEAutoRentHeader"
             ToolTip = 'Specifies the customer renting the vehicle.';
             TableRelation = Customer."No.";
             NotBlank = true;
+
         }
 
         field(10; DriverLicenseImage; Media)
@@ -72,6 +75,7 @@ table 65016 "DAVEAutoRentHeader"
             Caption = 'No. Series';
             Editable = false;
             TableRelation = "No. Series";
+            AllowInCustomizations = Never;
         }
     }
 
@@ -91,6 +95,10 @@ table 65016 "DAVEAutoRentHeader"
         AutoSetup: Record DAVEAutoSetup;
         NoSeries: Codeunit "No. Series";
     begin
+         if AutoSetup.IsEmpty() then begin
+            AutoSetup.Init();
+            AutoSetup.Insert(false);
+        end;
         AutoSetup.Get();
         "No. Series" := AutoSetup.RentalCardSeries;
         "No." := NoSeries.GetNextNo("No. Series");
