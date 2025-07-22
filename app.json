@@ -1,0 +1,32 @@
+{
+  "id": "3f9d2b9e-5dd6-4f72-8378-73f053ad9603",
+  "name": "CarRental",
+  "publisher": "DAVE",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "platform": "1.0.0.0",
+  "application": "26.0.0.0",
+  "runtime": "15.0",
+  "dependencies": [],
+  "screenshots": [],
+  "idRanges": [
+    {
+      "from": 65000,
+      "to": 65999
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "features": [
+    "NoImplicitWith"
+  ]
+}
