@@ -43,10 +43,9 @@ codeunit 65005 DAVEPCUtils
     procedure ResetValidationRules()
     var
         Rule: Record DAVEPCValidationRules;
-        ResetMsg: Label 'This will reset your validation rules to default. Continue?';
+        //ResetMsg: Label 'This will reset your validation rules to default. Continue?';
     begin
-        if Confirm(ResetMsg, true) then
-            Rule.DeleteAll();
+        Rule.DeleteAll();
         Rule.Init();
         Rule."Code" := 'BIRTH_DATE';
         Rule."Caption" := 'Must contain valid birth date';
