@@ -1,0 +1,32 @@
+{
+  "id": "28fb82ac-767b-4d5e-974a-5b28730e9085",
+  "name": "Personal Code Check",
+  "publisher": "DAVE",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "platform": "1.0.0.0",
+  "application": "26.0.0.0",
+  "runtime": "15.0",
+  "dependencies": [],
+  "screenshots": [],
+  "idRanges": [
+    {
+      "from": 65000,
+      "to": 65999
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "features": [
+    "NoImplicitWith"
+  ]
+}
