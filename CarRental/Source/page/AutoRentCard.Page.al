@@ -34,6 +34,11 @@ page 65019 "DAVEAutoRentCard"
                 {
                     Caption = 'Vehicle ID';
                     LookupPageId = DAVEAutos;
+                    trigger OnValidate()
+                    begin
+                        if Rec.CarNo <> '' then
+                            AdjustFirstLine();
+                    end;
                 }
                 field(ReservedFrom; Rec."ReservedFrom")
                 {
@@ -50,6 +55,7 @@ page 65019 "DAVEAutoRentCard"
                 field(Status; Rec."Status")
                 {
                     Caption = 'Rental Status';
+                    Editable = false;
                 }
             }
             part(RentalLines; "DAVEAutoRentLineListPart")
@@ -63,13 +69,69 @@ page 65019 "DAVEAutoRentCard"
     {
         area(Processing)
         {
-            action(ChangeStatus)
+            /*action(ChangeStatus)
             {
-                Caption = 'Open Rental';
-                ToolTip = 'Open the rental document.';
+                Caption = 'Change Status';
+                ToolTip = 'Change Current Status.';
                 Image = Card;
-                RunObject = page "DAVEAutoRentCard";
-            }
+                trigger OnAction()
+                begin
+
+                end;
+
+            }*/
         }
     }
+    /*local procedure CreateFirstLine()
+    var
+        AutoRentLine: Record DAVEAutoRentLine;
+        Resource: Record Resource;
+        Auto: Record DAVEAuto;
+        AutoRentLineListPart: Page DAVEAutoRentLineListPart;
+        AutoRentLineType: Enum DAVEAutoRentLineType;
+    begin
+        //AutoRentLine.ClearMarks();
+        AutoRentLine.Reset();
+        AutoRentLine.Init();
+        AutoRentLine.DocumentNo := Rec."No.";
+        AutoRentLine.LineNo := 10000;
+        AutoRentLine.Type := AutoRentLineType::Resource;
+        Auto.Get(Rec.CarNo);
+        AutoRentLine."No." := Auto.RentalResource;
+        Resource.Get(Auto.RentalResource);
+        AutoRentLine.Description := Resource.Name;
+        AutoRentLine.Insert(true);
+        AutoRentLineListPart.Update();
+    end;*/
+    local procedure AdjustFirstLine()
+    var
+        AutoRentLine: Record DAVEAutoRentLine;
+        Resource: Record Resource;
+        Auto: Record DAVEAuto;
+        AutoRentLineType: Enum DAVEAutoRentLineType;
+    begin
+        // Try to get existing first line
+        if AutoRentLine.Get(Rec."No.", 10000) then begin
+            Auto.Get(Rec.CarNo);
+            AutoRentLine.Type := AutoRentLineType::Resource;
+            AutoRentLine."No." := Auto.RentalResource;
+            Resource.Get(Auto.RentalResource);
+            AutoRentLine.Description := Resource.Name;
+            AutoRentLine.Modify(false); // Update instead of insert
+        end else begin
+            // Line doesn't exist — create it
+            AutoRentLine.Init();
+            AutoRentLine.DocumentNo := Rec."No.";
+            AutoRentLine.LineNo := 10000;
+            AutoRentLine.Type := AutoRentLineType::Resource;
+            Auto.Get(Rec.CarNo);
+            AutoRentLine."No." := Auto.RentalResource;
+            Resource.Get(Auto.RentalResource);
+            AutoRentLine.Description := Resource.Name;
+            AutoRentLine.UnitPrice := Resource."Unit Price";
+            AutoRentLine.Insert(true);
+        end;
+        // Refresh list part if needed
+        //AutoRentLineListPart.Update();
+    end;
 }

@@ -5,6 +5,7 @@ page 65013 "DAVEAutos"
     Caption = 'Autos';
     UsageCategory = Lists;
     ApplicationArea = All;
+    CardPageId = DAVEAutoCard;
 
     layout
     {
@@ -32,22 +33,28 @@ page 65013 "DAVEAutos"
     }
     actions
     {
-        area(Processing)
+        area(Navigation)
         {
-            action(OpenCard)
+            action(OpenReservations)
             {
-                ToolTip = 'Open the auto card.';
-                Caption = 'Card';
-                Image = Card;
+                Caption = 'Open Reservations';
+                ToolTip = 'Opens All Reservations.';
+                Image = ItemReservation;
                 trigger OnAction()
-                var
-                    DAVEAutoCard: Page DAVEAutoCard;
                 begin
-                    DAVEAutoCard.SetRecord(Rec);
-                    DAVEAutoCard.Run();
+                    Page.RunModal(Page::DAVEAutoReservations);
+                end;
+            }
+            action(OpenValidReservations)
+            {
+                Caption = 'Open Valid Reservations';
+                ToolTip = 'Opens Currently Valid Reservations.';
+                Image = ItemReservation;
+                trigger OnAction()
+                begin
+                    Page.RunModal(Page::DAVEValidReservations);
                 end;
             }
         }
-
     }
 }

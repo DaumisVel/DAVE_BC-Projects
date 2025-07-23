@@ -20,8 +20,8 @@ table 65014 "DAVEAutoReservation"
         {
             Caption = 'Line Number';
             ToolTip = 'Specifies the line number of the reservation entry.';
-            NotBlank = true;
             AutoIncrement = true;
+            AllowInCustomizations = Always;
         }
 
         field(10; CustomerNo; Code[20])
@@ -83,4 +83,5 @@ table 65014 "DAVEAutoReservation"
         if OtherRes.FindFirst() and (OtherRes.LineNo <> LineNo) then
             Error(OverlapErr, CarNo, Format(OtherRes.ReservedFrom), Format(OtherRes.ReservedUntil));
     end;
+
 }

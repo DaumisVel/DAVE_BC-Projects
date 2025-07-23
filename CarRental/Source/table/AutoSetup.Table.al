@@ -2,6 +2,7 @@ table 65010 DAVEAutoSetup
 {
     DataClassification = ToBeClassified;
     Caption = 'Auto Setup';
+    Permissions = tabledata DAVEAutoSetup=I;
 
     fields
     {
@@ -49,4 +50,9 @@ table 65010 DAVEAutoSetup
         {
         }
     }
+    procedure CreateAutoSetup()
+    begin
+        Rec.Init();
+        Rec.Insert(false);
+    end;
 }

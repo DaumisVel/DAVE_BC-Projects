@@ -13,7 +13,6 @@ page 65015 "DAVEAutoReservations"
             repeater(Reservations)
             {
                 field(CarNo; Rec."CarNo") { }
-                field(LineNo; Rec."LineNo") { }
                 field(CustomerNo; Rec."CustomerNo") { }
                 field(ReservedFrom; Rec."ReservedFrom") { }
                 field(ReservedUntil; Rec."ReservedUntil") { }

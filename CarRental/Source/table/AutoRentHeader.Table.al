@@ -1,10 +1,11 @@
 table 65016 "DAVEAutoRentHeader"
 {
     Caption = 'Vehicle Rental Header';
-    LookupPageId = "DAVEAutoRentList";
+    LookupPageId = "DAVEAutoRentCard";
     DrillDownPageId = "DAVEAutoRentList";
     DataClassification = CustomerContent;
-    Permissions = tabledata DAVEAutoSetup=RI;
+    Permissions = tabledata DAVEAutoSetup=R,
+                  tabledata Customer=R;
 
 
     fields
@@ -21,6 +22,11 @@ table 65016 "DAVEAutoRentHeader"
             ToolTip = 'Specifies the customer renting the vehicle.';
             TableRelation = Customer."No.";
             NotBlank = true;
+            trigger OnValidate()
+            var
+            begin
+                ValidateCustomerStatus();
+            end;
 
         }
 
@@ -42,6 +48,11 @@ table 65016 "DAVEAutoRentHeader"
             ToolTip = 'Specifies the vehicle being rented.';
             TableRelation = DAVEAuto."No.";
             NotBlank = true;
+            trigger OnValidate()
+            begin
+                Validate(ReservedFrom);
+                Validate(ReservedUntil);
+            end;
 
         }
 
@@ -49,18 +60,27 @@ table 65016 "DAVEAutoRentHeader"
         {
             Caption = 'Reserved From';
             ToolTip = 'Specifies the start date and time of the reservation.';
+            trigger OnValidate()
+            begin
+                ValidateReservationNoOverlap();
+            end;
         }
 
         field(13; ReservedUntil; DateTime)
         {
             Caption = 'Reserved Until';
             ToolTip = 'Specifies the end date and time of the reservation.';
+            trigger OnValidate()
+            begin
+                ValidateReservationNoOverlap();
+            end;
         }
 
         field(14; TotalAmount; Decimal)
         {
             Caption = 'Total Rental Amount';
             ToolTip = 'Specifies the total amount calculated from rental lines.';
+            Editable = false;
             // Optional: make this a FlowField if needed
         }
 
@@ -95,12 +115,50 @@ table 65016 "DAVEAutoRentHeader"
         AutoSetup: Record DAVEAutoSetup;
         NoSeries: Codeunit "No. Series";
     begin
-         if AutoSetup.IsEmpty() then begin
-            AutoSetup.Init();
-            AutoSetup.Insert(false);
-        end;
+        if AutoSetup.IsEmpty() then
+            AutoSetup.CreateAutoSetup();
         AutoSetup.Get();
         "No. Series" := AutoSetup.RentalCardSeries;
         "No." := NoSeries.GetNextNo("No. Series");
+    end;
+
+    local procedure ValidateCustomerStatus()
+    var
+        Customer: Record Customer;
+        CustLedgerEntry: Record "Cust. Ledger Entry";
+        IsBlockedErr: Label 'Customer is Blocked';
+        IsInDebtErr: Label 'Customer owes money: %1', Comment = '%1 = Ledger entries remaining amount sum';
+        CustTotalAmount: Decimal;
+    begin
+        Customer.Get(Rec.CustomerNo);
+        if Customer.IsBlocked() then
+            Error(IsBlockedErr);
+
+        CustLedgerEntry.SetRange("Customer No.", Rec.CustomerNo);
+        CustLedgerEntry.SetRange(Open, true);
+
+        CustTotalAmount := 0;
+        if CustLedgerEntry.FindSet() then
+            repeat
+                CustTotalAmount += CustLedgerEntry."Remaining Amount";
+            until CustLedgerEntry.Next() = 0;
+
+        if CustTotalAmount > 0 then
+            Error(IsInDebtErr, CustTotalAmount);
+    end;
+    local procedure ValidateReservationNoOverlap()
+    var
+        OtherRes: Record DAVEAutoReservation;
+        OverlapErr: Label 'Reservation overlaps for vehicle %1: %2-%3.', Comment = '%1=CarNo, %2=ReservedFrom, %3=ReservedUntil';
+    begin
+        // Limit to the same vehicle
+        TestField(CarNo);
+        OtherRes.SetRange(CarNo, CarNo);
+        // Find records where ReservedFrom < this.ReservedUntil
+        // AND ReservedUntil > this.ReservedFrom => overlap exists
+        OtherRes.SetFilter(ReservedFrom, '< %1', ReservedUntil);
+        OtherRes.SetFilter(ReservedUntil, '> %1', ReservedFrom);
+        if OtherRes.FindFirst() then
+            Error(OverlapErr, CarNo, Format(OtherRes.ReservedFrom), Format(OtherRes.ReservedUntil));
     end;
 }

@@ -5,8 +5,7 @@ page 65016 "DAVEValidReservations"
     Caption = 'Valid Reservations';
     UsageCategory = Lists;
     ApplicationArea = All;
-
-
+    Editable = false;
     layout
     {
         area(Content)

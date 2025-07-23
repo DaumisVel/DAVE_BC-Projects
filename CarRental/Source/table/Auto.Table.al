@@ -2,9 +2,9 @@ table 65013 "DAVEAuto"
 {
     Caption = 'Auto';
     DataClassification = CustomerContent;
-    LookupPageId = DAVEAutos;
+    LookupPageId = DAVEAutoCard;
     DrillDownPageId = DAVEAutos;
-    Permissions = tabledata DAVEAutoSetup=RI;
+    Permissions = tabledata DAVEAutoSetup=R;
 
     fields
     {
@@ -90,10 +90,8 @@ table 65013 "DAVEAuto"
         AutoSetup: Record DAVEAutoSetup;
         NoSeries: Codeunit "No. Series";
     begin
-        if AutoSetup.IsEmpty() then begin
-            AutoSetup.Init();
-            AutoSetup.Insert(false);
-        end;
+        if AutoSetup.IsEmpty() then
+            AutoSetup.CreateAutoSetup();
         AutoSetup.Get();
         "No. Series" := AutoSetup.CarNoSeries;
         "No." := NoSeries.GetNextNo("No. Series");

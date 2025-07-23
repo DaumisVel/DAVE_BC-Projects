@@ -4,7 +4,7 @@ table 65017 "DAVEAutoRentLine"
     DataClassification = CustomerContent;
     Permissions = tabledata Item=R,
                   tabledata Resource=R,
-                  tabledata DAVEAutoRentLine=R;
+                  tabledata DAVEAutoRentLine=RD;
 
 
     fields
@@ -22,7 +22,8 @@ table 65017 "DAVEAutoRentLine"
         {
             Caption = 'Line No.';
             ToolTip = 'Specifies the line number within the rental document.';
-            NotBlank = true;
+            Editable = false;
+            //NotBlank = true;
         }
 
         field(3; Type; Enum "DAVEAutoRentLineType")
@@ -74,10 +75,10 @@ table 65017 "DAVEAutoRentLine"
         {
             Caption = 'Quantity';
             ToolTip = 'Specifies the quantity of the item or resource being rented.';
-                trigger OnValidate()
-                begin
-                    CalcAmount();
-                end;
+            trigger OnValidate()
+            begin
+                CalcAmount();
+            end;
         }
 
         field(7; UnitPrice; Decimal)
@@ -115,6 +116,17 @@ table 65017 "DAVEAutoRentLine"
         SetNextLineNo();
         CalcAmount();
     end;
+    trigger OnModify()
+    begin
+        if Rec.LineNo = 10000 then
+            Error('You cannot modify the first line.');
+    end;
+    trigger OnDelete()
+    begin
+        if Rec.LineNo = 10000 then
+            Error('Deleting the first line is not allowed.');
+    end;
+
 
     local procedure CalcAmount()
     begin
@@ -125,6 +137,7 @@ table 65017 "DAVEAutoRentLine"
     var
         LastLine: Record DAVEAutoRentLine;
     begin
+        TestField(DocumentNo);
         LastLine.SetRange(DocumentNo, DocumentNo);
         if not LastLine.FindLast() then
             LineNo := 10000

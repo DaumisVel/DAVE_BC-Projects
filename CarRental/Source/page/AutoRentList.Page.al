@@ -5,6 +5,7 @@ page 65018 "DAVEAutoRentList"
     Caption = 'Auto Rents';
     UsageCategory = Lists;
     ApplicationArea = All;
+    CardPageId = DAVEAutoRentCard;
 
     layout
     {
@@ -47,7 +48,7 @@ page 65018 "DAVEAutoRentList"
     }
     actions
     {
-        area(Processing)
+      /*  area(Processing)
         {
             action(OpenCard)
             {
@@ -56,6 +57,6 @@ page 65018 "DAVEAutoRentList"
                 Image = Card;
                 RunObject = page "DAVEAutoRentCard";
             }
-        }
+        }*/
     }
 }

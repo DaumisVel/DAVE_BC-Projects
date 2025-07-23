@@ -37,4 +37,30 @@ page 65014 "DAVEAutoCard"
             }
         }
     }
+    actions
+    {
+        area(Navigation)
+        {
+            action(OpenReservations)
+            {
+                Caption = 'Open Reservations';
+                ToolTip = 'Opens All Reservations.';
+                Image = ItemReservation;
+                trigger OnAction()
+                begin
+                    Page.RunModal(Page::DAVEAutoReservations);
+                end;
+            }
+            action(OpenValidReservations)
+            {
+                Caption = 'Open Valid Reservations';
+                ToolTip = 'Opens Currently Valid Reservations.';
+                Image = ItemReservation;
+                trigger OnAction()
+                begin
+                    Page.RunModal(Page::DAVEValidReservations);
+                end;
+            }
+        }
+    }
 }
