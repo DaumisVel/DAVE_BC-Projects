@@ -14,9 +14,9 @@ page 65005 "DAVEPCRuleDetails"
         {
             repeater(Group)
             {
-                field("Rule Code"; Rec."Rule Code") { ApplicationArea = All; }
-                field("Rule Description"; Rec."Rule Description") { ApplicationArea = All; }
-                field(Result; Rec.Result) { ApplicationArea = All; }
+                field("Rule Code"; Rec."Rule Code") { }
+                field("Rule Description"; Rec."Rule Description") { }
+                field(Result; Rec.Result) { }
             }
         }
     }

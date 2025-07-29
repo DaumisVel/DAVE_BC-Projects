@@ -14,23 +14,19 @@ page 65004 "DAVEPCValidations"
             {
                 field("Personal Code"; Rec."Personal Code")
                 {
-                    ApplicationArea = All;
                     ToolTip = 'User input for the personal code to be validated.';
                 }
                 field("Is Valid"; Rec."Is Valid")
                 {
-                    ApplicationArea = All;
                     ToolTip = 'Indicates whether the personal code is valid.';
                 }
                 field("Broken Rules"; Rec."Broken Rules")
                 {
-                    ApplicationArea = All;
                     ToolTip = 'List of validation rules that were broken during the check.';
                 }
             }
             part("Error details"; "DAVEPCRuleDetails")
             {
-                ApplicationArea = All;
                 SubPageLink = "Entry No." = field("Entry No.");
             }
         }

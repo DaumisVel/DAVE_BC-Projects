@@ -20,11 +20,9 @@ page 65003 "DAVEPCValidationCard"
                 {
                     Editable = false;
                     ToolTip = 'Unique identifier for the validation entry.';
-                    ApplicationArea = All;
                 }
                 field("Personal Code"; Rec."Personal Code")
                 {
-                    ApplicationArea = All;
                     ToolTip = 'User input for the personal code to be validated.';
 
                 }
