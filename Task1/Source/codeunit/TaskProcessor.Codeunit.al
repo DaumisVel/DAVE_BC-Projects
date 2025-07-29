@@ -7,6 +7,7 @@ codeunit 65003 DAVETaskProcessor
         MyProcedures: Codeunit DAVEMyProcedures;
         Result: Text;
     begin
+        // Review: Turbūt kelčiau šią patikrą į pačias procedūras. Suprantu, kad dubliuojasi, bet esant situacijai, kai skirtingos procedūros turi skirtingus preconditions, būtų mišrainė
         if TaskRec."Task Type" in [TaskRec."Task Type"::ReverseText, TaskRec."Task Type"::CountVowelsConsonants] then
             TaskRec.TestField("Input Text");
         case TaskRec."Task Type" of

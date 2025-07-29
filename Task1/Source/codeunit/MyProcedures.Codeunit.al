@@ -1,6 +1,7 @@
 codeunit 65000 DAVEMyProcedures
 {
     var
+        // Review: Kintamuosius, net ir tekstines konstantas, deklaruoju naudojimo scope. Jei naudojame vienoje vietoje, jos neturi pagrindo būti global scope.
         MinMaxOutputFormatTxt: Label 'Min: %1, Max: %2', Comment = '%1 = Minimum value; %2 = Maximum value';
         VowelConsonantOutputFormatTxt: Label 'Vowels: %1, Consonants: %2', Comment = '%1 = Number of vowels; %2 = Number of consonants';
 
@@ -99,6 +100,4 @@ codeunit 65000 DAVEMyProcedures
             RandomArray.Add(Random(1000));
         exit(RandomArray);
     end;
-
-
 }

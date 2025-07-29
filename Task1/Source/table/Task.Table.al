@@ -51,6 +51,6 @@ table 65000 "DAVETask"
     trigger OnInsert()
     begin
         if "User ID" = '' then
-            "User ID" := CopyStr(Format(UserId()), 1, 100);
+            "User ID" := CopyStr(Format(UserId()), 1, 100); // Review: laukas Rec.SystemCreatedBy automatiškai užpildomas su vartotojo ID, kuris sukūrė įrašą. Default system behavior
     end;
 }
