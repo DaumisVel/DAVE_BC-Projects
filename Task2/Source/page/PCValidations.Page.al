@@ -8,7 +8,7 @@ page 65004 "DAVEPCValidations"
     ApplicationArea = All;
     layout
     {
-        area(content)
+        area(Content)
         {
             repeater(Group)
             {
@@ -38,7 +38,7 @@ page 65004 "DAVEPCValidations"
 
     actions
     {
-        area(navigation)
+        area(Navigation)
         {
             action(GoToCard)
             {

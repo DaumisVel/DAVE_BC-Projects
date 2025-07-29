@@ -10,7 +10,7 @@ page 65005 "DAVEPCRuleDetails"
 
     layout
     {
-        area(content)
+        area(Content)
         {
             repeater(Group)
             {

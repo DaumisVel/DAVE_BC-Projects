@@ -8,7 +8,7 @@ page 65003 "DAVEPCValidationCard"
 
     layout
     {
-        area(content)
+        area(Content)
         {
             group("Validation Details")
             {
@@ -30,7 +30,7 @@ page 65003 "DAVEPCValidationCard"
 
     actions
     {
-        area(processing)
+        area(Processing)
         {
             action(CheckCode)
             {

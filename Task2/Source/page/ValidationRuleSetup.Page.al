@@ -9,7 +9,7 @@ page 65006 "DAVEValidationRuleSetup"
 
     layout
     {
-        area(content)
+        area(Content)
         {
             repeater(Group)
             {
@@ -24,7 +24,7 @@ page 65006 "DAVEValidationRuleSetup"
     }
     actions
     {
-        area(processing)
+        area(Processing)
         {
             action("Reset")
             {
