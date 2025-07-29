@@ -2,7 +2,7 @@ table 65001 "DAVEPCValidationHeader"
 {
     Caption = 'Personal Code Validation Header';
     TableType = Normal;
-    DataClassification = ToBeClassified;
+    DataClassification = CustomerContent;
 
     fields
     {
@@ -38,7 +38,6 @@ table 65001 "DAVEPCValidationHeader"
         field(14; "Broken Rules"; Text[100])
         {
             Caption = 'Broken Rules';
-            DataClassification = ToBeClassified;
             ToolTip = 'List of validation rule codes, that were broken during the check.';
         }
     }
