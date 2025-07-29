@@ -17,7 +17,6 @@ page 65002 "DAVEMy Task Card"
                 // Caption = 'Task Details';
                 field("Task Type"; Rec."Task Type")
                 {
-                    ApplicationArea = All;
                     ToolTip = 'Specifies the type of the task.';
                     Editable = (Rec."Result Text" = '');
                     trigger OnValidate()
@@ -28,7 +27,6 @@ page 65002 "DAVEMy Task Card"
                 }
                 field("Input Text"; Rec."Input Text")
                 {
-                    ApplicationArea = All;
                     MultiLine = true;
                     ToolTip = 'Specifies the input text for the task.';
                     Editable = (Rec."Result Text" = '') and
@@ -38,7 +36,6 @@ page 65002 "DAVEMy Task Card"
                 }
                 field("Result Text"; Rec."Result Text")
                 {
-                    ApplicationArea = All;
                     MultiLine = true;
                     ToolTip = 'Displays the result of the processed task.';
                     Editable = false;
@@ -53,7 +50,6 @@ page 65002 "DAVEMy Task Card"
         {
             action("Process Task")
             {
-                ApplicationArea = All;
                 Caption = 'Process Task';
                 Image = Process;
                 ToolTip = 'Processes the current task and displays the result.';
