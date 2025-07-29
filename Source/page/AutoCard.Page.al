@@ -61,6 +61,37 @@ page 65014 "DAVEAutoCard"
                     Page.RunModal(Page::DAVEValidReservations);
                 end;
             }
+            action(ViewDamageHistory)
+            {
+                Caption = 'View Damage History';
+                ToolTip = 'Opens Damage History for this car.';
+                Image = History;
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    AutoDamage: Record DAVEAutoDamage;
+                begin
+                    AutoDamage.SetRange(CarNo, Rec."No.");
+                    Page.RunModal(Page::DAVEAutoDamageEntries, AutoDamage);
+                end;
+            }
+        }
+        area(Reporting)
+        {
+            action(PrintRentHistory)
+            {
+                Caption = 'Print Rental History';
+                Image = History;
+                ToolTip = 'Runs report to print rent history for current car.';
+                trigger OnAction()
+                var
+                    Auto: Record DAVEAuto;
+                begin
+                    Auto.SetRange("No.", Rec."No.");
+                    Report.Run(Report::DAVEAutoRentHistory, true, false, Auto);
+                end;
+            }
         }
     }
 }

@@ -64,7 +64,7 @@ fields
     field(15; Amount; Decimal)
     {
         Caption = 'Line Amount';
-        ToolTip = 'Specifies the total amount for this line, calculated as Quantity × Unit Price.';
+        ToolTip = 'Specifies the total amount for this line, calculated as Quantity * Unit Price.';
         Editable = false;
         DataClassification = SystemMetadata;
     }

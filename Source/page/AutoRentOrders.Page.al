@@ -1,11 +1,11 @@
-page 65018 "DAVEAutoRentList"
+page 65018 "DAVEAutoRentOrders"
 {
     PageType = List;
     SourceTable = DAVEAutoRentHeader;
-    Caption = 'Auto Rents';
+    Caption = 'Auto Rent Orders';
     UsageCategory = Lists;
     ApplicationArea = All;
-    CardPageId = DAVEAutoRentCard;
+    CardPageId = DAVEAutoRentOrder;
 
     layout
     {

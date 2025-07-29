@@ -1,7 +1,8 @@
-page 65011 "DAVEAutoMarks"
+page 65011 DAVEAutoMarks
 {
     PageType = List;
-    SourceTable = "DAVEAutoMark";
+    SourceTable = DAVEAutoMark;
+    SourceTableView = sorting(Code);
     Caption = 'Auto Marks';
     UsageCategory = Lists;
     ApplicationArea = All;
@@ -12,8 +13,8 @@ page 65011 "DAVEAutoMarks"
         {
             repeater(AutoMarks)
             {
-                field("Code"; Rec."Code") { }
-                field(Description; Rec."Description") { }
+                field("Code"; Rec.Code) { }
+                field(Description; Rec.Description) { }
             }
         }
     }

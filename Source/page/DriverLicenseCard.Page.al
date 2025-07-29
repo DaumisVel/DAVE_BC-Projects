@@ -1,4 +1,4 @@
-page 65999 DAVEDriverLicensePreview
+page 65999 DAVEDriverLicenseCard
 {
     Caption = 'Driver License Card';
     PageType = CardPart;

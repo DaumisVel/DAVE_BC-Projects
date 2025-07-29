@@ -1,6 +1,6 @@
 permissionset 65010 DAVERentPermissions
 {
-    Caption = 'Rental permissions';
+    Caption = 'Rental permissions', MaxLength = 30;
     Assignable = true;
     Permissions = tabledata DAVEAutoSetup=RIMD,
         tabledata DAVEAuto=RIMD,
@@ -25,22 +25,24 @@ permissionset 65010 DAVERentPermissions
         table DAVEFinishedAutoRentHeader=X,
         table DAVEFinishedAutoRentLine=X,
         page DAVEAutoCard=X,
-        page DAVEAutoDamageList=X,
+        page DAVEAutoDamageEntries=X,
         page DAVEAutoIssuedContracts=X,
         page DAVEAutoMarks=X,
         page DAVEAutoModels=X,
-        page DAVEAutoRentCard=X,
-        page DAVEAutoRentDamageList=X,
-        page DAVEAutoRentLineListPart=X,
-        page DAVEAutoRentList=X,
+        page DAVEAutoRentOrder=X,
+        page DAVEAutoRentDamageEntries=X,
+        page DAVEAutoRentLines=X,
+        page DAVEAutoRentOrders=X,
         page DAVEAutoReservations=X,
         page DAVEAutos=X,
-        page DAVEFininshedAutoRentList=X,
-        page DAVEFinishedAutoRentCard=X,
-        page DAVEFinRentLineListPart=X,
-        page DAVERentalSetupCard=X,
+        page DAVEFininshedAutoRentOrders=X,
+        page DAVEFinishedAutoRentOrder=X,
+        page DAVEFinishedRentLines=X,
+        page DAVERentalSetup=X,
         page DAVEValidReservations=X,
-        page DAVEDriverLicensePreview=X,
+        page DAVEDriverLicenseCard=X,
         codeunit DAVERentalManagement=X,
-        codeunit DAVERentalPostingService=X;
+        codeunit DAVERentalPostingService=X,
+        report DAVEAutoRentHistory=X,
+        report DAVEAutoRentIssuanceCard=X;
 }

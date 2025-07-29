@@ -1,8 +1,8 @@
-table 65015 "DAVEAutoDamage"
+table 65015 DAVEAutoDamage
 {
     Caption = 'Auto Damage';
-    LookupPageId = "DAVEAutoDamageList";
-    DrillDownPageId = "DAVEAutoDamageList";
+    LookupPageId = DAVEAutoDamageEntries;
+    DrillDownPageId = DAVEAutoDamageEntries;
 
     fields
     {
@@ -21,6 +21,8 @@ table 65015 "DAVEAutoDamage"
             ToolTip = 'Specifies the damage entry line number.';
             DataClassification = SystemMetadata;
             AutoIncrement = true;
+            AllowInCustomizations = Never;
+            Editable = false;
         }
 
         field(10; DamageDate; Date)
@@ -38,7 +40,7 @@ table 65015 "DAVEAutoDamage"
             NotBlank = true;
         }
 
-        field(12; Status; Enum "DAVEDamageStatus")
+        field(12; Status; Enum DAVEAutoDamageStatus)
         {
             Caption = 'Damage Status';
             ToolTip = 'Indicates whether the damage is current or has been resolved.';
@@ -48,12 +50,12 @@ table 65015 "DAVEAutoDamage"
 
     keys
     {
-        key(PK; "CarNo", "LineNo") { Clustered = true; }
+        key(PK; CarNo, LineNo) { Clustered = true; }
     }
 
     fieldgroups
     {
-        fieldgroup(DropDown; "CarNo", "DamageDate", "Status") { }
-        fieldgroup(Brick; "CarNo", "DamageDate", "Description", "Status") { }
+        fieldgroup(DropDown; CarNo, DamageDate, Status) { }
+        fieldgroup(Brick; CarNo, DamageDate, Description, Status) { }
     }
 }

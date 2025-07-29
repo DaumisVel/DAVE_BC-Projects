@@ -3,7 +3,7 @@ page 65024 "DAVEAutoIssuedContracts"
     PageType = List;
     SourceTable = DAVEAutoRentHeader;
     SourceTableView = where(Status = const(Issued));
-    Caption = 'Išduotos Auto sutartys';
+    Caption = 'Auto Issued Contracts';
     UsageCategory = Lists;
     ApplicationArea = All;
 
@@ -52,7 +52,7 @@ page 65024 "DAVEAutoIssuedContracts"
                 Caption = 'Open Card';
                 ToolTip = 'Open the selected rental card.';
                 Image = Card;
-                RunObject = page "DAVEAutoRentCard";
+                RunObject = page "DAVEAutoRentOrder";
             }
         }
     }

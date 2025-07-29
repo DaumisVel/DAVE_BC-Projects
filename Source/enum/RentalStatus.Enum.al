@@ -6,7 +6,6 @@ enum 65011 DAVERentalStatus
     {
         Caption = 'Open';
     }
-
     value(2; Issued)
     {
         Caption = 'Issued';

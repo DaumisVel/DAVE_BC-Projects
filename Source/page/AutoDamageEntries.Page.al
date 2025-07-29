@@ -1,4 +1,4 @@
-page 65017 "DAVEAutoDamageList"
+page 65017 DAVEAutoDamageEntries
 {
     PageType = List;
     SourceTable = DAVEAutoDamage;
@@ -17,10 +17,10 @@ page 65017 "DAVEAutoDamageList"
                 {
                     Caption = 'Vehicle ID';
                 }
-                /*field(LineNo; Rec."LineNo")
+                field(LineNo; Rec."LineNo")
                 {
                     Caption = 'Line No.';
-                }*/
+                }
                 field(DamageDate; Rec."DamageDate")
                 {
                     Caption = 'Date of Damage';
@@ -36,4 +36,5 @@ page 65017 "DAVEAutoDamageList"
             }
         }
     }
+    
 }

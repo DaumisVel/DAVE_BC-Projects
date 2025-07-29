@@ -1,8 +1,9 @@
-page 65023 "DAVEFinRentLineListPart"
+page 65023 "DAVEFinishedRentLines"
 {
     PageType = ListPart;
     SourceTable = "DAVEFinishedAutoRentLine";
-    Caption = 'Completed Rental Lines';
+    Caption = 'Finished Auto Rental Lines';
+    UsageCategory = History;
     ApplicationArea = All;
 
     layout

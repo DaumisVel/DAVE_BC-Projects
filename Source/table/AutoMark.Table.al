@@ -1,15 +1,14 @@
-table 65011 "DAVEAutoMark"
+table 65011 DAVEAutoMark
 {
     Caption = 'Auto Mark';
-    DataClassification = ToBeClassified;
-    LookupPageId = "DAVEAutoMarks";
-    DrillDownPageId = "DAVEAutoMarks";
+    DataClassification = CustomerContent;
+    LookupPageId = DAVEAutoMarks;
+    DrillDownPageId = DAVEAutoMarks;
 
     fields
     {
         field(1; "Code"; Code[20])
         {
-            DataClassification = CustomerContent;
             Caption = 'Code';
             ToolTip = 'Specifies the code of the auto mark.';
             NotBlank = true;
@@ -23,12 +22,12 @@ table 65011 "DAVEAutoMark"
 
     keys
     {
-        key(PK; "Code") { Clustered = true; }
+        key(PK; Code) { Clustered = true; }
     }
 
     fieldgroups
     {
-        fieldgroup(DropDown; "Code", "Description") { }
-        fieldgroup(Brick; "Code", "Description") { }
+        fieldgroup(DropDown; Code, Description) { }
+        fieldgroup(Brick; Code, Description) { }
     }
 }

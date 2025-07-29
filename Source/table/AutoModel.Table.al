@@ -1,8 +1,8 @@
-table 65012 "DAVEAutoModel"
+table 65012 DAVEAutoModel
 {
     Caption = 'Auto Model';
     DataClassification = ToBeClassified;
-    LookupPageId = "DAVEAutoModels";
+    LookupPageId = DAVEAutoModels;
     DrillDownPageId = "DAVEAutoModels";
 
     fields
@@ -11,7 +11,7 @@ table 65012 "DAVEAutoModel"
         {
             Caption = 'Mark Code';
             ToolTip = 'Specifies the code of the auto mark.';
-            TableRelation = "DAVEAutoMark"."Code";
+            TableRelation = DAVEAutoMark."Code";
             NotBlank = true;
         }
         field(2; "Code"; Code[20])
@@ -29,12 +29,12 @@ table 65012 "DAVEAutoModel"
 
     keys
     {
-        key(PK; "MarkCode", "Code") { Clustered = true; }
+        key(PK; MarkCode, Code) { Clustered = true; }
     }
 
     fieldgroups
     {
-        fieldgroup(DropDown; "Code", "Description") { }
-        fieldgroup(Brick; "Code", "Description", "MarkCode") { }
+        fieldgroup(DropDown; Code, Description) { }
+        fieldgroup(Brick; Code, Description, MarkCode) { }
     }
 }

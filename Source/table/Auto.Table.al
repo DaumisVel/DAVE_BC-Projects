@@ -1,34 +1,37 @@
-table 65013 "DAVEAuto"
+table 65013 DAVEAuto
 {
     Caption = 'Auto';
     DataClassification = CustomerContent;
     LookupPageId = DAVEAutoCard;
     DrillDownPageId = DAVEAutos;
-    Permissions = tabledata DAVEAutoSetup=R;
+    Permissions = tabledata DAVEAutoSetup = R;
 
     fields
     {
         field(1; "No."; Code[20])
         {
-            Caption = 'Vehicle ID';
+            Caption = 'Auto No.';
             ToolTip = 'Specifies the auto number.';
         }
         field(10; Name; Text[100])
         {
-            Caption = 'Vehicle Name';
+            Caption = 'Auto Name';
             ToolTip = 'Specifies the name of the auto.';
+            NotBlank = true;
         }
         field(11; MarkCode; Code[20])
         {
-            Caption = 'Manufacturer';
+            Caption = 'Mark Code';
             ToolTip = 'Specifies the auto mark.';
-            TableRelation = "DAVEAutoMark"."Code";
+            TableRelation = DAVEAutoMark.Code;
+            NotBlank = true;
         }
         field(12; ModelCode; Code[20])
         {
-            Caption = 'Model';
+            Caption = 'Model Code';
             ToolTip = 'Specifies the auto model.';
-            TableRelation = "DAVEAutoModel"."Code" where("MarkCode" = field("MarkCode"));
+            TableRelation = DAVEAutoModel.Code where(MarkCode = field(MarkCode));
+            NotBlank = true;
         }
         field(13; ManufactureYear; Integer)
         {
@@ -37,7 +40,7 @@ table 65013 "DAVEAuto"
         }
         field(14; InsuranceValidUntil; Date)
         {
-            Caption = 'Insurance Expiry Date';
+            Caption = 'Civil Insurance Expiry Date';
             ToolTip = 'Specifies the expiration date of civil insurance.';
         }
         field(15; TechnicalInspectionValidUntil; Date)
@@ -55,9 +58,9 @@ table 65013 "DAVEAuto"
         {
             Caption = 'Rental Service Resoruce';
             ToolTip = 'Specifies the rental service resource.';
-            TableRelation = Resource;
+            TableRelation = Resource."No." where ("Base Unit of Measure" = const('DAY'));
         }
-        field (18; "No. Series"; Code[20])
+        field(18; "No. Series"; Code[20])
         {
             Caption = 'No. Series';
             Editable = false;
@@ -66,8 +69,8 @@ table 65013 "DAVEAuto"
         }
         field(50; RentalPrice; Decimal)
         {
-            Caption = 'Calculated Rental Price';
-            ToolTip = 'Specifies the * rental price of the vehicle, retrieved from the linked rental service.';
+            Caption = 'Rental Price per Day';
+            ToolTip = 'Specifies the daily rental price of the vehicle.';
             CalcFormula = lookup(Resource."Unit Price" where("No." = field("RentalResource")));
             FieldClass = FlowField;
             Editable = false;
@@ -81,21 +84,19 @@ table 65013 "DAVEAuto"
 
     fieldgroups
     {
-        fieldgroup(DropDown; "No.", "Name") { }
-        fieldgroup(Brick; "No.", "Name", "MarkCode", "ModelCode", "ManufactureYear") { }
+        fieldgroup(DropDown; "No.", Name) { }
+        fieldgroup(Brick; "No.", Name, MarkCode, ModelCode, ManufactureYear) { }
     }
 
     trigger OnInsert()
     var
         AutoSetup: Record DAVEAutoSetup;
         NoSeries: Codeunit "No. Series";
+        RentalManagement: Codeunit DAVERentalManagement;
     begin
-        if AutoSetup.IsEmpty() then
-            AutoSetup.CreateAutoSetup();
+        RentalManagement.EnsureSetup();
         AutoSetup.Get();
-        "No. Series" := AutoSetup.CarNoSeries;
+        "No. Series" := AutoSetup.AutomobileNoSeries;
         "No." := NoSeries.GetNextNo("No. Series");
     end;
-
-
 }

@@ -1,4 +1,4 @@
-enum 65012 DAVEDamageStatus
+enum 65012 DAVEAutoDamageStatus
 {
     Extensible = true;
 

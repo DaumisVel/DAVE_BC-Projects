@@ -1,14 +1,12 @@
-page 65025 "DAVEFininshedAutoRentList"
+page 65025 "DAVEFininshedAutoRentOrders"
 {
     PageType = List;
     SourceTable = DAVEFinishedAutoRentHeader;
-    Caption = 'Completed Rentals';
-    UsageCategory = Lists;
+    Caption = 'Finished Auto Rental Orders';
+    UsageCategory = History;
     ApplicationArea = All;
     Permissions = tabledata DAVEFinishedAutoRentHeader = R;
-    CardPageId = DAVEFinishedAutoRentCard;
-
-    // Optional: sort by rental no.
+    CardPageId = DAVEFinishedAutoRentOrder;
     SourceTableView = sorting("No.");
 
     layout

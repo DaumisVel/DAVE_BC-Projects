@@ -1,11 +1,14 @@
 table 65016 "DAVEAutoRentHeader"
 {
     Caption = 'Vehicle Rental Header';
-    LookupPageId = "DAVEAutoRentCard";
-    DrillDownPageId = "DAVEAutoRentList";
+    LookupPageId = "DAVEAutoRentOrder";
+    DrillDownPageId = "DAVEAutoRentOrders";
     DataClassification = CustomerContent;
-    Permissions = tabledata DAVEAutoSetup=R,
-                  tabledata Customer=R;
+    Permissions =
+        tabledata Customer = R,
+        tabledata DAVEAuto = R,
+        tabledata DAVEAutoRentHeader = R,
+        tabledata DAVEAutoSetup = R;
 
 
     fields
@@ -24,8 +27,9 @@ table 65016 "DAVEAutoRentHeader"
             NotBlank = true;
             trigger OnValidate()
             var
+                RentalManagement: Codeunit DAVERentalManagement;
             begin
-                ValidateCustomerStatus();
+                RentalManagement.ValidateCustomerStatus(CustomerNo);
             end;
 
         }
@@ -40,19 +44,19 @@ table 65016 "DAVEAutoRentHeader"
         field(12; RentalDate; Date)
         {
             Caption = 'Rental Date';
-            ToolTip = 'Specifies the date the rental was created.';
+            ToolTip = 'Specifies the date when the rental order becomes valid.';
         }
 
         field(13; CarNo; Code[20])
         {
             Caption = 'Vehicle ID';
-            ToolTip = 'Specifies the vehicle being rented.';
+            ToolTip = 'Specifies the vehicle No. being rented.';
             TableRelation = DAVEAuto."No.";
             NotBlank = true;
             trigger OnValidate()
             begin
-                Validate(ReservedFrom);
-                Validate(ReservedUntil);
+                if (ReservedFrom <> 0D) and (ReservedUntil <> 0D) then
+                    ValidateReservationDates();
             end;
 
         }
@@ -60,28 +64,39 @@ table 65016 "DAVEAutoRentHeader"
         field(14; ReservedFrom; Date)
         {
             Caption = 'Reserved From';
-            ToolTip = 'Specifies the start date and time of the reservation.';
-            trigger OnValidate()
-            begin
+            ToolTip = 'Specifies the start date of the reservation.';
+            NotBlank = true;
 
-                if ("ReservedFrom" <> 0D) and ("ReservedUntil" <> 0D) then
-                    if ("ReservedFrom" > "ReservedUntil") then
-                        Error('Reserved From must be earlier than Reserved Until.');
-                ValidateReservationNoOverlap();
+            trigger OnValidate()
+            var
+                RentalManagement: Codeunit DAVERentalManagement;
+            begin
+                if ("ReservedFrom" = 0D) or ("ReservedUntil" = 0D) then
+                    exit;
+
+                ValidateReservationDates();
+                ValidateReservedNotFromPast();
+                RentalManagement.ValidateReservationOverlap(CarNo, ReservedFrom, ReservedUntil, 0);
             end;
         }
 
         field(15; ReservedUntil; Date)
         {
             Caption = 'Reserved Until';
-            ToolTip = 'Specifies the end date and time of the reservation.';
+            ToolTip = 'Specifies the end date of the reservation.';
+            NotBlank = true;
 
             trigger OnValidate()
+            var
+                RentalManagement: Codeunit DAVERentalManagement;
             begin
-                if ("ReservedFrom" <> 0D) and ("ReservedUntil" <> 0D) then
-                    if ("ReservedFrom" > "ReservedUntil") then
-                        Error('Reserved From must be earlier than Reserved Until.');
-                ValidateReservationNoOverlap();
+                if ("ReservedFrom" = 0D) and ("ReservedUntil" = 0D) then
+                    exit;
+                ValidateReservationDates();
+                RentalManagement.ValidateReservationOverlap(CarNo, ReservedFrom, ReservedUntil, 0);
+                CheckTechnicalInspection();
+                CheckInsurance();
+
             end;
         }
 
@@ -89,8 +104,8 @@ table 65016 "DAVEAutoRentHeader"
         {
             Caption = 'Total Rental Amount';
             ToolTip = 'Specifies the total amount calculated from rental lines.';
-            Editable = false;
             CalcFormula = sum(DAVEAutoRentLine.Amount where(DocumentNo = field("No.")));
+            Editable = false;
             FieldClass = FlowField;
         }
 
@@ -100,7 +115,7 @@ table 65016 "DAVEAutoRentHeader"
             ToolTip = 'Indicates whether the rental is open or issued.';
             InitValue = Open;
         }
-        field (18; "No. Series"; Code[20])
+        field(18; "No. Series"; Code[20])
         {
             Caption = 'No. Series';
             Editable = false;
@@ -123,83 +138,89 @@ table 65016 "DAVEAutoRentHeader"
     trigger OnInsert()
     var
         AutoSetup: Record DAVEAutoSetup;
+        RentalManagement: Codeunit DAVERentalManagement;
         NoSeries: Codeunit "No. Series";
+        CurrStatusErr: Label 'Cannot insert a record with status Issued.';
+        RentalStatus: Enum DAVERentalStatus;
     begin
-        if AutoSetup.IsEmpty() then
-            AutoSetup.CreateAutoSetup();
+        if Status = RentalStatus::Issued then
+            Error(CurrStatusErr);
+
+        RentalManagement.EnsureSetup();
         AutoSetup.Get();
-        "No. Series" := AutoSetup.RentalCardSeries;
+        "No. Series" := AutoSetup.RentalOrderNoSeries;
         "No." := NoSeries.GetNextNo("No. Series");
     end;
 
     trigger OnModify()
     var
-        RentLine: Record DAVEAutoRentLine;
+        RentalManagement: Codeunit DAVERentalManagement;
+        CurrStatusErr: Label 'Record cant be modified when status is: %1', Comment = '%1 = Status';
         RentalStatus: Enum DAVERentalStatus;
     begin
         if Status = RentalStatus::Issued then
-            Error('Record cant be modified when status is Issued.');
+            Error(CurrStatusErr, Status);
 
-        if ("ReservedFrom" <> xRec."ReservedFrom") or
-        ("ReservedUntil" <> xRec."ReservedUntil") or
-        (Rec.CarNo <> xRec."CarNo") then begin
-            // Find the first line and recalculate Quantity
-            RentLine.SetRange("DocumentNo", "No.");
-            RentLine.SetRange("LineNo", 10000);
-            if RentLine.FindFirst() then begin
-                RentLine.Quantity := RentLine.CalcDailyQuantity("ReservedFrom", "ReservedUntil");
-                RentLine.Amount := (RentLine.Quantity * RentLine.UnitPrice);
-                RentLine.Modify(false);
-                CalcFields(TotalAmount);
-            end;
-        end;
+        if (ReservedFrom <> xRec.ReservedFrom) or
+        (ReservedUntil <> xRec.ReservedUntil) or
+        (Rec.CarNo <> xRec.CarNo) then
+            RentalManagement.RecalculateLineQuantity(Rec);
     end;
+
     trigger OnDelete()
     var
+        CurrStatusErr: Label 'Record cant be deleted when status is: %1', Comment = '%1 = Status';
         RentalStatus: Enum DAVERentalStatus;
     begin
         if Status = RentalStatus::Issued then
-            Error('You cannot delete an order with Issued status.');
+            Error(CurrStatusErr, Status);
     end;
 
 
-    local procedure ValidateCustomerStatus()
+    local procedure CheckTechnicalInspection()
     var
-        Customer: Record Customer;
-        CustLedgerEntry: Record "Cust. Ledger Entry";
-        IsBlockedErr: Label 'Customer is Blocked';
-        IsInDebtErr: Label 'Customer owes money: %1', Comment = '%1 = Ledger entries remaining amount sum';
-        CustTotalAmount: Decimal;
+        Auto: Record DAVEAuto;
+        TechExpiredErr: Label 'The technical inspection of the vehicle %1 is expired on %2. Please renew it before proceeding.', Comment = '%1 is the vehicle number, %2 is the expiration date of the technical inspection.';
     begin
-        Customer.Get(Rec.CustomerNo);
-        if Customer.IsBlocked() then
-            Error(IsBlockedErr);
-
-        CustLedgerEntry.SetRange("Customer No.", Rec.CustomerNo);
-        CustLedgerEntry.SetRange(Open, true);
-
-        CustTotalAmount := 0;
-        if CustLedgerEntry.FindSet() then
-            repeat
-                CustTotalAmount += CustLedgerEntry."Remaining Amount";
-            until CustLedgerEntry.Next() = 0;
-
-        if CustTotalAmount > 0 then
-            Error(IsInDebtErr, CustTotalAmount);
+        if IsCarNoEmpty() then
+            exit;
+        Auto.Get(CarNo);
+        if Auto.TechnicalInspectionValidUntil < ReservedFrom then
+            Error(TechExpiredErr, Auto."No.", Auto.TechnicalInspectionValidUntil);
     end;
-    local procedure ValidateReservationNoOverlap()
+
+    local procedure CheckInsurance()
     var
-        OtherRes: Record DAVEAutoReservation;
-        OverlapErr: Label 'Reservation overlaps for vehicle %1: %2-%3.', Comment = '%1=CarNo, %2=ReservedFrom, %3=ReservedUntil';
+        Auto: Record DAVEAuto;
+        InsExpiredErr: Label 'The civil insurance of the vehicle %1 is expired on %2. Please renew it before proceeding.', Comment = '%1 is the vehicle number, %2 is the expiration date of the insurance.';
     begin
-        // Limit to the same vehicle
-        TestField(CarNo);
-        OtherRes.SetRange(CarNo, CarNo);
-        // Find records where ReservedFrom < this.ReservedUntil
-        // AND ReservedUntil > this.ReservedFrom => overlap exists
-        OtherRes.SetFilter(ReservedFrom, '< %1', ReservedUntil);
-        OtherRes.SetFilter(ReservedUntil, '> %1', ReservedFrom);
-        if OtherRes.FindFirst() then
-            Error(OverlapErr, CarNo, Format(OtherRes.ReservedFrom), Format(OtherRes.ReservedUntil));
+        if IsCarNoEmpty() then
+            exit;
+        Auto.Get(CarNo);
+        if Auto.InsuranceValidUntil < ReservedFrom then
+            Error(InsExpiredErr, Auto."No.", Auto.InsuranceValidUntil);
+    end;
+
+    local procedure IsCarNoEmpty(): Boolean
+    begin
+        exit(CarNo = '');
+    end;
+
+    local procedure ValidateReservationDates()
+    var
+        InvalidDateErr: Label '%1 must be earlier than %2.', Comment = '%1 - start date, %2 - end date.';
+    begin
+        if (ReservedFrom > ReservedUntil) then
+            Error(InvalidDateErr, ReservedFrom, ReservedUntil);
+    end;
+
+    local procedure ValidateReservedNotFromPast()
+    var
+        PastDateErr: Label 'Reservation start date cannot be in the past. Please select a valid date.';
+        Today: Date;
+    begin
+        Today := WorkDate();
+        if ReservedFrom < Today then
+            Error(PastDateErr);
     end;
 }

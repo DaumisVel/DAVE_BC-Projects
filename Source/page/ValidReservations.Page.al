@@ -1,6 +1,6 @@
 page 65016 "DAVEValidReservations"
 {
-    PageType = List;
+    PageType = ListPart;
     SourceTable = DAVEAutoReservation;
     Caption = 'Valid Reservations';
     UsageCategory = Lists;

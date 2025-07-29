@@ -1,16 +1,16 @@
-table 65014 "DAVEAutoReservation"
+table 65014 DAVEAutoReservation
 {
     Caption = 'Auto Reservation';
-    LookupPageId = "DAVEAutoReservations";
-    DrillDownPageId = "DAVEAutoReservations";
+    LookupPageId = DAVEAutoReservations;
+    DrillDownPageId = DAVEAutoReservations;
     DataClassification = CustomerContent;
-    Permissions = tabledata DAVEAutoReservation=R;
+    Permissions = tabledata DAVEAutoReservation = R;
 
     fields
     {
         field(1; CarNo; Code[20])
         {
-            Caption = 'Vehicle ID';
+            Caption = 'Car No.';
             ToolTip = 'Specifies the unique ID of the reserved vehicle.';
             TableRelation = DAVEAuto."No.";
             NotBlank = true;
@@ -35,26 +35,35 @@ table 65014 "DAVEAutoReservation"
         field(11; ReservedFrom; Date)
         {
             Caption = 'Reservation Start';
-            ToolTip = 'Specifies the start date and time of the reservation.';
+            ToolTip = 'Specifies the start date of the reservation.';
             trigger OnValidate()
+            var
+                RentalManagement: Codeunit DAVERentalManagement;
+                PastDateErr: Label 'Reservation start date cannot be in the past. Please select a valid date.';
+                Today: Date;
             begin
-                if ("ReservedFrom" <> 0D) and ("ReservedUntil" <> 0D) then
+                Today := WorkDate();
+                if ReservedFrom < Today then
+                    Error(PastDateErr);
+                if (ReservedFrom <> 0D) and (ReservedUntil <> 0D) then
                     if ("ReservedFrom" > "ReservedUntil") then
-                        Error('Reserved From must be earlier than Reserved Until.');
-                ValidateReservationNoOverlap();
+                        Error(InvalidDatesErr);
+                RentalManagement.ValidateReservationOverlap(CarNo, ReservedFrom, ReservedUntil, LineNo);
             end;
         }
 
         field(12; ReservedUntil; Date)
         {
             Caption = 'Reservation End';
-            ToolTip = 'Specifies the end date and time of the reservation.';
+            ToolTip = 'Specifies the end date of the reservation.';
             trigger OnValidate()
+            var
+                RentalManagement: Codeunit DAVERentalManagement;
             begin
                 if ("ReservedFrom" <> 0D) and ("ReservedUntil" <> 0D) then
                     if ("ReservedFrom" > "ReservedUntil") then
-                        Error('Reserved From must be earlier than Reserved Until.');
-                ValidateReservationNoOverlap();
+                        Error(InvalidDatesErr, ReservedFrom, ReservedUntil);
+                RentalManagement.ValidateReservationOverlap(CarNo, ReservedFrom, ReservedUntil, LineNo);
             end;
         }
     }
@@ -73,29 +82,7 @@ table 65014 "DAVEAutoReservation"
         {
         }
     }
-    trigger OnInsert()
-    begin
 
-    end;
-
-    trigger OnModify()
-    begin
-
-    end;
-
-    local procedure ValidateReservationNoOverlap()
     var
-        OtherRes: Record DAVEAutoReservation;
-        OverlapErr: Label 'Reservation overlaps for vehicle %1: %2-%3.', Comment = '%1=CarNo, %2=ReservedFrom, %3=ReservedUntil';
-    begin
-        // Limit to the same vehicle
-        OtherRes.SetRange(CarNo, CarNo);
-        // Find records where ReservedFrom < this.ReservedUntil
-        // AND ReservedUntil > this.ReservedFrom => overlap exists
-        OtherRes.SetFilter(ReservedFrom, '< %1', ReservedUntil);
-        OtherRes.SetFilter(ReservedUntil, '> %1', ReservedFrom);
-        if OtherRes.FindFirst() and (OtherRes.LineNo <> LineNo) then
-            Error(OverlapErr, CarNo, Format(OtherRes.ReservedFrom), Format(OtherRes.ReservedUntil));
-    end;
-
+        InvalidDatesErr: Label '%1 must be earlier than %2.', Comment = '%1 is the start date, %2 is the end date of the reservation.';
 }

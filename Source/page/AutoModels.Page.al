@@ -1,7 +1,8 @@
-page 65012 "DAVEAutoModels"
+page 65012 DAVEAutoModels
 {
     PageType = List;
     SourceTable = DAVEAutoModel;
+    SourceTableView = sorting(MarkCode, Code);
     Caption = 'Auto Models';
     UsageCategory = Lists;
     ApplicationArea = All;
@@ -10,11 +11,11 @@ page 65012 "DAVEAutoModels"
     {
         area(Content)
         {
-            repeater(Group)
+            repeater(AutoModels)
             {
-                field(MarkCode; Rec."MarkCode") {  }
-                field("Code"; Rec."Code") {  }
-                field(Description; Rec."Description") {  }
+                field(MarkCode; Rec.MarkCode) { }
+                field("Code"; Rec.Code) { }
+                field(Description; Rec.Description) { }
             }
         }
     }

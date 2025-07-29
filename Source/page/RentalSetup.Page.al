@@ -1,4 +1,4 @@
-page 65010 DAVERentalSetupCard
+page 65010 DAVERentalSetup
 {
     PageType = Card;
     SourceTable = DAVEAutoSetup;
@@ -14,16 +14,14 @@ page 65010 DAVERentalSetupCard
             {
                 Caption = 'Setup Details';
 
-                field(CarNoSeries; Rec.CarNoSeries)
+                field(AutomobileNoSeries; Rec.AutomobileNoSeries)
                 {
 
                 }
-
-                field(RentalCardSeries; Rec.RentalCardSeries)
+                field(RentalOrderNoSeries; Rec.RentalOrderNoSeries)
                 {
 
                 }
-
                 field(AttachmentsLocation; Rec.AttachmentsLocation)
                 {
 
@@ -31,11 +29,4 @@ page 65010 DAVERentalSetupCard
             }
         }
     }
-    trigger OnOpenPage()
-    begin
-        if not Rec.Get('AUTOSETUP') then begin
-            Rec.Init();
-            Rec.Insert(true);
-        end;
-    end;
 }

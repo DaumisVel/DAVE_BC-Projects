@@ -2,9 +2,12 @@ table 65017 "DAVEAutoRentLine"
 {
     Caption = 'Vehicle Rental Line';
     DataClassification = CustomerContent;
-    Permissions = tabledata Item=R,
-                  tabledata Resource=R,
-                  tabledata DAVEAutoRentLine=RD;
+    Permissions =
+        tabledata DAVEAutoRentHeader = R,
+        tabledata DAVEAutoRentLine = RD,
+        tabledata Item = R,
+        tabledata Resource = R,
+        tabledata DAVEAuto = R;
 
 
     fields
@@ -27,12 +30,14 @@ table 65017 "DAVEAutoRentLine"
 
         field(10; Type; Enum "DAVEAutoRentLineType")
         {
-            Caption = 'Line Type';
+            Caption = 'Type';
             ToolTip = 'Specifies whether the line is for a resource or an item.';
             trigger OnValidate()
             begin
-               // Clear any previous selection when type changes
-                Validate("No.", '');
+                "No." := '';
+                Description := '';
+                UnitPrice := 0;
+                CalcAmount();
             end;
 
         }
@@ -42,7 +47,7 @@ table 65017 "DAVEAutoRentLine"
             Caption = 'Item/Resource No.';
             ToolTip = 'Specifies the item or resource code depending on the line type.';
             TableRelation = if ("Type" = const(Item)) Item."No."
-                            else if ("Type" = const(Resource)) Resource."No.";
+            else if ("Type" = const(Resource)) Resource."No.";
             trigger OnValidate()
             var
                 ItemRec: Record Item;
@@ -77,7 +82,6 @@ table 65017 "DAVEAutoRentLine"
             trigger OnValidate()
             begin
                 CalcAmount();
-                Modify(false);
             end;
         }
 
@@ -113,35 +117,47 @@ table 65017 "DAVEAutoRentLine"
     }
     trigger OnInsert()
     begin
-        SetNextLineNo();
+        if LineNo = 0 then
+            SetNextLineNo();
         CalcAmount();
     end;
+
     trigger OnModify()
     var
         AutoRentHeader: Record DAVEAutoRentHeader;
-        AutoRentCard: Page DAVEAutoRentCard;
+        AutoRentCard: Page DAVEAutoRentOrder;
+        FirstLineModErr: Label 'You cannot modify the first line.';
+        InvalidModStatusErr: Label 'Record cant be modified when status is: %1', Comment = '%1 = Status';
+        DocNoNotFoundErr: Label 'Rental header with DocumentNo %1 not found.', Comment = '%1 = DocumentNo';
         RentalStatus: Enum DAVERentalStatus;
     begin
         if Rec.LineNo = 10000 then
-            Error('You cannot modify the first line.');
+            Error(FirstLineModErr);
 
-        AutoRentHeader.Get(DocumentNo);
+        if not AutoRentHeader.Get(DocumentNo) then
+            Error(DocNoNotFoundErr, DocumentNo);
         if AutoRentHeader.Status = RentalStatus::Issued then
-            Error('Record cant be modified when status is Issued.');
+            Error(InvalidModStatusErr, AutoRentHeader.Status);
+
         AutoRentHeader.CalcFields(TotalAmount);
         AutoRentCard.Update();
     end;
+
     trigger OnDelete()
     var
         AutoRentHeader: Record DAVEAutoRentHeader;
+        FirstLineDelErr: Label 'Deleting the first line is not allowed.';
+        InvalidDelStatusErr: Label 'Record cant be deleted when status is: %1', Comment = '%1 = Status';
+        DocNoNotFoundErr: Label 'Rental header with DocumentNo %1 not found.', Comment = '%1 = DocumentNo';
         RentalStatus: Enum DAVERentalStatus;
     begin
         if Rec.LineNo = 10000 then
-            Error('Deleting the first line is not allowed.');
+            Error(FirstLineDelErr);
 
-        AutoRentHeader.Get(DocumentNo);
+        if not AutoRentHeader.Get(DocumentNo) then
+            Error(DocNoNotFoundErr, DocumentNo);
         if AutoRentHeader.Status = RentalStatus::Issued then
-            Error('You cannot delete an order with Issued status.');
+            Error(InvalidDelStatusErr);
     end;
 
 
@@ -161,15 +177,5 @@ table 65017 "DAVEAutoRentLine"
             LineNo := 10000
         else
             LineNo := LastLine.LineNo + 10000;
-    end;
-    procedure CalcDailyQuantity(StartDate: Date; EndDate: Date): Integer
-    begin
-        if (StartDate = 0D) or (EndDate = 0D) then
-            exit(0);
-
-        if EndDate < StartDate then
-            Error('ReservedUntil cannot be earlier than ReservedFrom.');
-
-        exit((EndDate - StartDate) + 1);
     end;
 }

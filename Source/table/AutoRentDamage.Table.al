@@ -2,9 +2,9 @@ table 65018 "DAVEAutoRentDamage"
 {
     Caption = 'Rental Damage Entry';
     DataClassification = CustomerContent;
-    LookupPageId = "DAVEAutoRentDamageList";
-    DrillDownPageId = "DAVEAutoRentDamageList";
-    Permissions = tabledata DAVEAutoRentDamage=R;
+    LookupPageId = "DAVEAutoRentDamageEntries";
+    DrillDownPageId = "DAVEAutoRentDamageEntries";
+    Permissions = tabledata DAVEAutoRentDamage = R;
 
 
     fields

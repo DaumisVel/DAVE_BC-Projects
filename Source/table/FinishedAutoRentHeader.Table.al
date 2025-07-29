@@ -1,8 +1,8 @@
 table 65019 "DAVEFinishedAutoRentHeader"
 {
     Caption = 'Completed Rental Header';
-    LookupPageId = "DAVEFininshedAutoRentList";
-    DrillDownPageId = "DAVEFinishedAutoRentCard";
+    LookupPageId = "DAVEFininshedAutoRentOrders";
+    DrillDownPageId = "DAVEFinishedAutoRentOrder";
 
     fields
     {
@@ -20,13 +20,6 @@ table 65019 "DAVEFinishedAutoRentHeader"
             ToolTip = 'Specifies the customer who rented the vehicle.';
             TableRelation = Customer."No.";
             NotBlank = true;
-            DataClassification = CustomerContent;
-        }
-
-        field(5000; DriverLicenseImage; Media)
-        {
-            Caption = 'Driver License';
-            ToolTip = 'Stores the image of the drivers license.';
             DataClassification = CustomerContent;
         }
 
@@ -70,6 +63,13 @@ table 65019 "DAVEFinishedAutoRentHeader"
             Editable = false;
             CalcFormula = sum(DAVEFinishedAutoRentLine.Amount where(DocumentNo = field("No.")));
             FieldClass = FlowField;
+        }
+
+        field(5000; DriverLicenseImage; Media)
+        {
+            Caption = 'Driver License';
+            ToolTip = 'Stores the image of the drivers license.';
+            DataClassification = CustomerContent;
         }
     }
 

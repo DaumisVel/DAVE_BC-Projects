@@ -14,17 +14,17 @@ page 65013 "DAVEAutos"
             repeater(Autos)
             {
                 field("No."; Rec."No.") { }
-                field(Name; Rec."Name") { }
-                field(MarkCode; Rec."MarkCode") { }
-                field(ModelCode; Rec."ModelCode") { }
-                field(ManufactureYear; Rec."ManufactureYear") { }
+                field(Name; Rec.Name) { }
+                field(MarkCode; Rec.MarkCode) { }
+                field(ModelCode; Rec.ModelCode) { }
+                field(ManufactureYear; Rec.ManufactureYear) { }
                 field(InsuranceValidUntil; Rec.InsuranceValidUntil) { }
                 field(TechnicalInspectionValidUntil; Rec.TechnicalInspectionValidUntil) { }
                 field(LocationCode; Rec.LocationCode) { }
                 field(RentalResource; Rec.RentalResource) { }
                 field(RentalPrice; Rec.RentalPrice) { }
             }
-            part(ValidReservations; "DAVEValidReservations")
+            part(ValidReservations; DAVEValidReservations)
             {
                 Caption = 'Valid Reservations for current Car';
                 ApplicationArea = all;
@@ -55,6 +55,23 @@ page 65013 "DAVEAutos"
                 begin
                     Page.RunModal(Page::DAVEValidReservations);
                 end;
+            }
+        }
+        area(Reporting)
+        {
+
+            action(PrintRentHistory)
+            {
+                    Caption = 'Print Rental History';
+                    Image = History;
+                    ToolTip = 'Runs report to print rent history for current car.';
+                    trigger OnAction()
+                    var
+                        Auto: Record DAVEAuto;
+                    begin
+                        Auto.SetRange("No.", Rec."No.");
+                        Report.Run(Report::DAVEAutoRentHistory, true, false, Auto);
+                    end;
             }
         }
     }

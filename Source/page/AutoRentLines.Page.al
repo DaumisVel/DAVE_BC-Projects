@@ -1,4 +1,4 @@
-page 65020 "DAVEAutoRentLineListPart"
+page 65020 "DAVEAutoRentLines"
 {
     PageType = ListPart;
     SourceTable = DAVEAutoRentLine;
@@ -38,12 +38,6 @@ page 65020 "DAVEAutoRentLineListPart"
                 field(Amount; Rec."Amount")
                 {
                     Caption = 'Line Amount';
-                    trigger OnValidate()
-                    var
-                        AutoRentCard: Page DAVEAutoRentCard;
-                    begin
-                        AutoRentCard.UpdateHeader();
-                    end;
                 }
             }
         }
