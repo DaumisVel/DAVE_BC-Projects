@@ -9,7 +9,7 @@ page 65001 "DAVEMy Task List"
 
     layout
     {
-        area(content)
+        area(Content)
         {
             repeater(Group)
             {

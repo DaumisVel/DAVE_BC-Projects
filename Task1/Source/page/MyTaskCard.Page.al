@@ -8,14 +8,14 @@ page 65002 "DAVEMy Task Card"
 
     layout
     {
-        area(content)
+        area(Content)
         {
             group("Task Details")
             {
                 field("Task Type"; Rec."Task Type")
                 {
                     ApplicationArea = All;
-                    Tooltip = 'Specifies the type of the task.';
+                    ToolTip = 'Specifies the type of the task.';
                     Editable = (Rec."Result Text" = '');
                     trigger OnValidate()
                     begin
@@ -27,7 +27,7 @@ page 65002 "DAVEMy Task Card"
                 {
                     ApplicationArea = All;
                     MultiLine = true;
-                    Tooltip = 'Specifies the input text for the task.';
+                    ToolTip = 'Specifies the input text for the task.';
                     Editable = (Rec."Result Text" = '') and
                                (Rec."Task Type" <> Rec."Task Type"::FindMinMax) and
                                (Rec."Task Type" <> Rec."Task Type"::FindDuplicates);
@@ -37,7 +37,7 @@ page 65002 "DAVEMy Task Card"
                 {
                     ApplicationArea = All;
                     MultiLine = true;
-                    Tooltip = 'Displays the result of the processed task.';
+                    ToolTip = 'Displays the result of the processed task.';
                     Editable = false;
                 }
             }
@@ -46,14 +46,14 @@ page 65002 "DAVEMy Task Card"
 
     actions
     {
-        area(processing)
+        area(Processing)
         {
             action("Process Task")
             {
                 ApplicationArea = All;
                 Caption = 'Process Task';
                 Image = Process;
-                Tooltip = 'Processes the current task and displays the result.';
+                ToolTip = 'Processes the current task and displays the result.';
 
                 Enabled = (Rec."Result Text" = '');
 
