@@ -10,28 +10,32 @@ table 65000 "DAVETask"
         {
             DataClassification = SystemMetadata;
             AutoIncrement = true;
-
+            Caption = 'ID';
         }
 
         field(2; "User ID"; Code[100])
         {
             DataClassification = ToBeClassified;
+            Caption = 'User ID';
         }
 
         field(3; "Task Type"; Enum "DAVETaskType")
         {
             DataClassification = SystemMetadata;
+            Caption = 'Task Type';
         }
 
         field(4; "Input Text"; Text[250])
         {
             DataClassification = ToBeClassified;
+            Caption = 'Input Text';
         }
 
         field(5; "Result Text"; Text[250])
         {
             DataClassification = ToBeClassified;
             Editable = false;
+            Caption = 'Result Text';
         }
     }
 

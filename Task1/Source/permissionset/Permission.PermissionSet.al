@@ -1,5 +1,6 @@
 permissionset 65000 DAVEPermission
 {
+    Caption = 'DAVE Permission', MaxLength = 30;
     Assignable = true;
     Permissions = tabledata DAVETask = RIMD,
         table DAVETask = X,

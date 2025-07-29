@@ -12,6 +12,9 @@ page 65002 "DAVEMy Task Card"
         {
             group("Task Details")
             {
+                ShowCaption = false;
+                // or
+                // Caption = 'Task Details';
                 field("Task Type"; Rec."Task Type")
                 {
                     ApplicationArea = All;
