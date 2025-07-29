@@ -14,11 +14,9 @@ page 65004 "DAVEPCValidations"
             {
                 field("Personal Code"; Rec."Personal Code")
                 {
-                    ToolTip = 'User input for the personal code to be validated.';
                 }
                 field("Is Valid"; Rec."Is Valid")
                 {
-                    ToolTip = 'Indicates whether the personal code is valid.';
                 }
                 field("Broken Rules"; Rec."Broken Rules")
                 {

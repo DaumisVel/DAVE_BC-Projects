@@ -19,12 +19,9 @@ page 65003 "DAVEPCValidationCard"
                 field("Entry No."; Rec."Entry No.")
                 {
                     Editable = false;
-                    ToolTip = 'Unique identifier for the validation entry.';
                 }
                 field("Personal Code"; Rec."Personal Code")
                 {
-                    ToolTip = 'User input for the personal code to be validated.';
-
                 }
             }
         }

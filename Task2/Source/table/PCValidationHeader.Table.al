@@ -10,10 +10,12 @@ table 65001 "DAVEPCValidationHeader"
         {
             Caption = 'Entry No.';
             AutoIncrement = true;
+            ToolTip = 'Unique identifier for the validation entry.';
         }
         field(11; "Personal Code"; Code[20])
         {
             Caption = 'Personal Code';
+            ToolTip = 'User input for the personal code to be validated.';
             trigger OnValidate()
             var
                 ModifyMsg: Label 'Personal code cannot be modified after it has been checked.';
@@ -27,6 +29,7 @@ table 65001 "DAVEPCValidationHeader"
         field(12; "Is Valid"; Boolean)
         {
             Caption = 'Is Valid';
+            ToolTip = 'Indicates whether the personal code is valid.';
         }
         field(13; "Has Been Checked"; Boolean)
         {
