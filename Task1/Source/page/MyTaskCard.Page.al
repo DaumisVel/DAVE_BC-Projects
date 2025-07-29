@@ -17,7 +17,6 @@ page 65002 "DAVEMy Task Card"
                 // Caption = 'Task Details';
                 field("Task Type"; Rec."Task Type")
                 {
-                    ToolTip = 'Specifies the type of the task.';
                     Editable = (Rec."Result Text" = '');
                     trigger OnValidate()
                     begin
@@ -28,7 +27,6 @@ page 65002 "DAVEMy Task Card"
                 field("Input Text"; Rec."Input Text")
                 {
                     MultiLine = true;
-                    ToolTip = 'Specifies the input text for the task.';
                     Editable = (Rec."Result Text" = '') and
                                (Rec."Task Type" <> Rec."Task Type"::FindMinMax) and
                                (Rec."Task Type" <> Rec."Task Type"::FindDuplicates);
@@ -37,7 +35,6 @@ page 65002 "DAVEMy Task Card"
                 field("Result Text"; Rec."Result Text")
                 {
                     MultiLine = true;
-                    ToolTip = 'Displays the result of the processed task.';
                     Editable = false;
                 }
             }
