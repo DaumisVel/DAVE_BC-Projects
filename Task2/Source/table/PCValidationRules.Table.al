@@ -10,6 +10,7 @@ table 65003 DAVEPCValidationRules
             Caption = 'Validation Rule Code';
             DataClassification = ToBeClassified;
             ToolTip = 'Unique code for the validation rule.';
+            NotBlank = true;
         }
         field(2; Caption; Text[100])
         {
