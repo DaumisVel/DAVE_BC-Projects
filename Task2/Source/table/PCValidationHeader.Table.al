@@ -6,9 +6,14 @@ table 65001 "DAVEPCValidationHeader"
 
     fields
     {
-        field(1; "Entry No."; Integer) { AutoIncrement = true; }
+        field(1; "Entry No."; Integer)
+        {
+            Caption = 'Entry No.';
+            AutoIncrement = true;
+        }
         field(11; "Personal Code"; Code[20])
         {
+            Caption = 'Personal Code';
             trigger OnValidate()
             var
                 ModifyMsg: Label 'Personal code cannot be modified after it has been checked.';
@@ -19,7 +24,10 @@ table 65001 "DAVEPCValidationHeader"
                 end;
             end;
         }
-        field(12; "Is Valid"; Boolean) { }
+        field(12; "Is Valid"; Boolean)
+        {
+            Caption = 'Is Valid';
+        }
         field(13; "Has Been Checked"; Boolean)
         {
             Caption = 'Has Been Checked';

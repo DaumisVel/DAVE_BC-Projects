@@ -1,5 +1,6 @@
 permissionset 65001 DAVEPCPermission
 {
+    Caption = 'DAVEPC Permission', MaxLength = 30;
     Assignable = true;
     Permissions = tabledata "DAVEPCValidationHeader" = RIMD,
         tabledata "DAVEPCValidationLines" = RIMD,

@@ -12,6 +12,10 @@ page 65003 "DAVEPCValidationCard"
         {
             group("Validation Details")
             {
+                ShowCaption = false;
+                // or
+                // Caption = 'Validation Details';
+
                 field("Entry No."; Rec."Entry No.")
                 {
                     Editable = false;

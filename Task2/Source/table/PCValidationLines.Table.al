@@ -8,10 +8,14 @@ table 65002 DAVEPCValidationLines
     {
         field(1; "Entry No."; Integer)
         {
+            Caption = 'Entry No.';
             DataClassification = ToBeClassified;
             TableRelation = "DAVEPCValidationHeader"."Entry No.";
         }
-        field(2; "Line No."; Integer) { }
+        field(2; "Line No."; Integer)
+        {
+            Caption = 'Line No.';
+        }
         field(11; "Rule Code"; Code[20])
         {
             Caption = 'Broken Rule Code';
