@@ -57,7 +57,7 @@ codeunit 65000 DAVEMyProcedures
                     Duplicates.Add(Num);
 
 
-        if Duplicates.Count = 0 then
+        if Duplicates.Count() = 0 then
             exit('No duplicates found.');
 
         Result := 'Duplicates: ';

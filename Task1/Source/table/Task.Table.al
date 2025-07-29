@@ -51,6 +51,6 @@ table 65000 "DAVETask"
     trigger OnInsert()
     begin
         if "User ID" = '' then
-            "User ID" := CopyStr(Format(UserId), 1, 100);
+            "User ID" := CopyStr(Format(UserId()), 1, 100);
     end;
 }
