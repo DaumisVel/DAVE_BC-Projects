@@ -2,7 +2,7 @@ page 65004 "DAVEPCValidations"
 {
     PageType = List;
     SourceTable = "DAVEPCValidationHeader";
-    SourceTableView = where("Has Been Checked" = const(true));
+    SourceTableView = where("Has Been Checked" = const(true)); // Review: Nesprantu ar šitas filtras neteisingas, ar visas page turėtų būti Editable = false
     Caption = 'Personal Code Validations';
     UsageCategory = Lists;
     ApplicationArea = All;

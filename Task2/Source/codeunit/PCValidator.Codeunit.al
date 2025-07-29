@@ -10,7 +10,7 @@ codeunit 65004 DAVEPCValidator
         Rule.Ascending(true);
         if Rule.FindSet() then
             repeat
-                if this.CanExecuteValidationRule(Header, Rule) then
+                if this.CanExecuteValidationRule(Header, Rule) then // Review: Man atrodo, kad ši dalis nereikalinga ir būtų galima tikrinti kiekvieną taisyklę
                     this.DispatchValidationRule(Header, Rule);
             until Rule.Next() = 0;
 
@@ -43,7 +43,8 @@ codeunit 65004 DAVEPCValidator
         end;
     end;
 
-    local procedure CanExecuteValidationRule(
+    local procedure CanExecuteValidationRule( // Review: kodas labai sudėtingas. Ar tikrai teikia vertės sprendimui?
+                                              //         Atmesadami kai kurias patikras nebetikriname ar AK jas atitinka, todėl gaunamas neteisingas rezultatas: pvz.: 12300115568.
     Header: Record DAVEPCValidationHeader;
     Rule: Record DAVEPCValidationRules): Boolean
     begin
@@ -158,7 +159,7 @@ codeunit 65004 DAVEPCValidator
         YearText := CopyStr(Header."Personal Code", 2, 2);
         MonthText := CopyStr(Header."Personal Code", 4, 2);
         DayText := CopyStr(Header."Personal Code", 6, 2);
-        Evaluate(YearInt, YearText);
+        Evaluate(YearInt, YearText); // Revirew: jei čia bus ne skaitmenys, tai bus runtime klaida
         Evaluate(MonthInt, MonthText);
         Evaluate(DayInt, DayText);
 
@@ -182,7 +183,7 @@ codeunit 65004 DAVEPCValidator
             Utils.AddValidationLine(Header, Rule."Code", Rule."Caption", DAVEPCRuleResult::Failed);
     end;
 
-    local procedure RunChecksum(
+    local procedure RunChecksum( // Review: complex
         Header: Record DAVEPCValidationHeader;
         Rule: Record DAVEPCValidationRules
     )
@@ -192,7 +193,7 @@ codeunit 65004 DAVEPCValidator
         i, S1, S2, R1, R2 : Integer;
         tempText: Text;
     begin
-
+        // Review: kodas labai complex. Galima būtų supaprastinti -> Suskaičiuojam checksum -> tikrinam ar sutampa su 11 simboliu -> fiksuojam rezultatą
         for i := 1 to 11 do begin
             tempText := Header."Personal Code"[i];
             Evaluate(Digits[i], tempText);

@@ -46,7 +46,7 @@ page 65003 "DAVEPCValidationCard"
 
                 begin
                     Validator.ValidateCode(Rec);
-                    if Validator.AllRulesPassed(Rec."Entry No.") then begin
+                    if Validator.AllRulesPassed(Rec."Entry No.") then begin // Review: visą logiką, net ir šią, geriau kelti į Codeunit
                         Message(CodeValidMsg);
                         Rec."Is Valid" := true;
                     end

@@ -43,9 +43,10 @@ codeunit 65005 DAVEPCUtils
     procedure ResetValidationRules()
     var
         Rule: Record DAVEPCValidationRules;
+        ConfirmManagement: Codeunit "Confirm Management";
         ResetMsg: Label 'This will reset your validation rules to default. Continue?';
     begin
-        if Confirm(ResetMsg, true) then
+        if ConfirmManagement.GetResponseOrDefault(ResetMsg, true) then
             Rule.DeleteAll();
         Rule.Init();
         Rule."Code" := 'BIRTH_DATE';
