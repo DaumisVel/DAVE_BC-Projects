@@ -3,7 +3,7 @@ table 65014 DAVEAutoReservation
     Caption = 'Auto Reservation';
     LookupPageId = DAVEAutoReservations;
     DrillDownPageId = DAVEAutoReservations;
-    DataClassification = CustomerContent;
+    DataClassification = EndUserIdentifiableInformation;
     Permissions = tabledata DAVEAutoReservation = R;
 
     fields
@@ -12,6 +12,7 @@ table 65014 DAVEAutoReservation
         {
             Caption = 'Car No.';
             ToolTip = 'Specifies the unique ID of the reserved vehicle.';
+            DataClassification = SystemMetadata;
             TableRelation = DAVEAuto."No.";
             NotBlank = true;
         }
@@ -20,6 +21,7 @@ table 65014 DAVEAutoReservation
         {
             Caption = 'Line Number';
             ToolTip = 'Specifies the line number of the reservation entry.';
+            DataClassification = SystemMetadata;
             AutoIncrement = true;
             AllowInCustomizations = Always;
         }
@@ -40,6 +42,7 @@ table 65014 DAVEAutoReservation
             var
                 RentalManagement: Codeunit DAVERentalManagement;
                 PastDateErr: Label 'Reservation start date cannot be in the past. Please select a valid date.';
+                InvalidDatesErr: Label '%1 must be earlier than %2.', Comment = '%1 is the start date, %2 is the end date of the reservation.';
                 Today: Date;
             begin
                 Today := WorkDate();
@@ -59,6 +62,7 @@ table 65014 DAVEAutoReservation
             trigger OnValidate()
             var
                 RentalManagement: Codeunit DAVERentalManagement;
+                InvalidDatesErr: Label '%1 must be earlier than %2.', Comment = '%1 is the start date, %2 is the end date of the reservation.';
             begin
                 if ("ReservedFrom" <> 0D) and ("ReservedUntil" <> 0D) then
                     if ("ReservedFrom" > "ReservedUntil") then
@@ -82,7 +86,4 @@ table 65014 DAVEAutoReservation
         {
         }
     }
-
-    var
-        InvalidDatesErr: Label '%1 must be earlier than %2.', Comment = '%1 is the start date, %2 is the end date of the reservation.';
 }

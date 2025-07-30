@@ -121,6 +121,4 @@ codeunit 65010 DAVERentalManagement
 
         exit((EndDate - StartDate) + 1);
     end;
-
-
 }

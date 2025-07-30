@@ -1,7 +1,7 @@
 table 65011 DAVEAutoMark
 {
     Caption = 'Auto Mark';
-    DataClassification = CustomerContent;
+    DataClassification = SystemMetadata;
     LookupPageId = DAVEAutoMarks;
     DrillDownPageId = DAVEAutoMarks;
 

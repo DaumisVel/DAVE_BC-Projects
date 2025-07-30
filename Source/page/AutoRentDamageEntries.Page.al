@@ -17,17 +17,15 @@ page 65021 "DAVEAutoRentDamageEntries"
             {
                 field(DocumentNo; Rec.DocumentNo)
                 {
-                    Caption = 'Rental No.';
                     LookupPageId = "DAVEAutoRentOrders";
                     NotBlank = true;
                 }
                 field(LineNo; Rec.LineNo)
                 {
-                    Caption = 'Line No.';
+                    
                 }
                 field(DamageDate; Rec.DamageDate)
                 {
-                    Caption = 'Damage Date';
                     NotBlank = true;
                     trigger OnValidate()
                     var
@@ -44,7 +42,6 @@ page 65021 "DAVEAutoRentDamageEntries"
                 }
                 field(Description; Rec.Description)
                 {
-                    Caption = 'Damage Description';
                     NotBlank = true;
                 }
             }

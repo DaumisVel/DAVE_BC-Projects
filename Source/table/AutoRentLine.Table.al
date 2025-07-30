@@ -1,7 +1,7 @@
 table 65017 "DAVEAutoRentLine"
 {
     Caption = 'Vehicle Rental Line';
-    DataClassification = CustomerContent;
+    DataClassification = EndUserIdentifiableInformation;
     Permissions =
         tabledata DAVEAutoRentHeader = R,
         tabledata DAVEAutoRentLine = RD,
@@ -25,6 +25,7 @@ table 65017 "DAVEAutoRentLine"
         {
             Caption = 'Line No.';
             ToolTip = 'Specifies the line number within the rental document.';
+            DataClassification = SystemMetadata;
             Editable = false;
         }
 
@@ -32,6 +33,7 @@ table 65017 "DAVEAutoRentLine"
         {
             Caption = 'Type';
             ToolTip = 'Specifies whether the line is for a resource or an item.';
+            DataClassification = SystemMetadata;
             trigger OnValidate()
             begin
                 "No." := '';
@@ -46,6 +48,7 @@ table 65017 "DAVEAutoRentLine"
         {
             Caption = 'Item/Resource No.';
             ToolTip = 'Specifies the item or resource code depending on the line type.';
+            DataClassification = SystemMetadata;
             TableRelation = if ("Type" = const(Item)) Item."No."
             else if ("Type" = const(Resource)) Resource."No.";
             trigger OnValidate()
@@ -72,6 +75,7 @@ table 65017 "DAVEAutoRentLine"
         {
             Caption = 'Description';
             ToolTip = 'Specifies the description from the selected item or resource.';
+            DataClassification = SystemMetadata;
             Editable = false;
         }
 
@@ -79,6 +83,7 @@ table 65017 "DAVEAutoRentLine"
         {
             Caption = 'Quantity';
             ToolTip = 'Specifies the quantity of the item or resource being rented.';
+            DataClassification = CustomerContent;
             trigger OnValidate()
             begin
                 CalcAmount();
@@ -89,6 +94,7 @@ table 65017 "DAVEAutoRentLine"
         {
             Caption = 'Unit Price';
             ToolTip = 'Specifies the price per unit from the selected item or resource.';
+            DataClassification = CustomerContent;
             Editable = false;
             trigger OnValidate()
             begin
@@ -101,6 +107,7 @@ table 65017 "DAVEAutoRentLine"
         {
             Caption = 'Line Amount';
             ToolTip = 'Specifies the total amount calculated as (Quantity * Unit Price).';
+            DataClassification = CustomerContent;
             Editable = false;
         }
     }

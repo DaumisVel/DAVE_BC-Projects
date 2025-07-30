@@ -15,29 +15,28 @@ page 65024 "DAVEAutoIssuedContracts"
             {
                 field("No."; Rec."No.")
                 {
-                    Caption = 'Rental No.';
+
                 }
                 field(CustomerNo; Rec.CustomerNo)
                 {
-                    Caption = 'Customer No.';
+
                     LookupPageId = "Customer List";
                 }
                 field(CarNo; Rec.CarNo)
                 {
-                    Caption = 'Vehicle ID';
+
                     LookupPageId = "DAVEAutos";
                 }
                 field(ReservedFrom; Rec.ReservedFrom)
                 {
-                    Caption = 'Reserved From';
+
                 }
                 field(ReservedUntil; Rec.ReservedUntil)
                 {
-                    Caption = 'Reserved Until';
                 }
                 field(TotalAmount; Rec.TotalAmount)
                 {
-                    Caption = 'Total Amount';
+                    
                 }
             }
         }

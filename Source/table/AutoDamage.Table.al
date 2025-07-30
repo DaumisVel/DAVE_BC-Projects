@@ -3,6 +3,7 @@ table 65015 DAVEAutoDamage
     Caption = 'Auto Damage';
     LookupPageId = DAVEAutoDamageEntries;
     DrillDownPageId = DAVEAutoDamageEntries;
+    DataClassification = CustomerContent;
 
     fields
     {
@@ -11,7 +12,6 @@ table 65015 DAVEAutoDamage
             Caption = 'Auto ID';
             ToolTip = 'Specifies the vehicle that was damaged.';
             TableRelation = DAVEAuto."No.";
-            DataClassification = CustomerContent;
             NotBlank = true;
         }
 
@@ -29,7 +29,6 @@ table 65015 DAVEAutoDamage
         {
             Caption = 'Damage Date';
             ToolTip = 'Specifies the date when the damage occurred.';
-            DataClassification = CustomerContent;
             NotBlank = true;
         }
 

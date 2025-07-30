@@ -1,7 +1,7 @@
 table 65013 DAVEAuto
 {
     Caption = 'Auto';
-    DataClassification = CustomerContent;
+    DataClassification = EndUserIdentifiableInformation;
     LookupPageId = DAVEAutoCard;
     DrillDownPageId = DAVEAutos;
     Permissions = tabledata DAVEAutoSetup = R;
@@ -53,6 +53,7 @@ table 65013 DAVEAuto
             Caption = 'Storage Location';
             ToolTip = 'Specifies the location of the auto.';
             TableRelation = Location.Code;
+            DataClassification = SystemMetadata;
         }
         field(17; RentalResource; Code[20])
         {

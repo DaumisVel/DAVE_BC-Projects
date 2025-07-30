@@ -1,7 +1,7 @@
 table 65018 "DAVEAutoRentDamage"
 {
     Caption = 'Rental Damage Entry';
-    DataClassification = CustomerContent;
+    DataClassification = EndUserIdentifiableInformation;
     LookupPageId = "DAVEAutoRentDamageEntries";
     DrillDownPageId = "DAVEAutoRentDamageEntries";
     Permissions = tabledata DAVEAutoRentDamage = R;
@@ -21,6 +21,7 @@ table 65018 "DAVEAutoRentDamage"
         {
             Caption = 'Line No.';
             ToolTip = 'Specifies the line number of the damage entry.';
+            DataClassification = SystemMetadata;
             AutoIncrement = true;
             Editable = false;
         }
@@ -29,6 +30,7 @@ table 65018 "DAVEAutoRentDamage"
         {
             Caption = 'Damage Date';
             ToolTip = 'Specifies the date when the damage was recorded.';
+            DataClassification = CustomerContent;
             NotBlank = true;
         }
 
@@ -36,6 +38,7 @@ table 65018 "DAVEAutoRentDamage"
         {
             Caption = 'Damage Description';
             ToolTip = 'Describes the damage observed before vehicle return.';
+            DataClassification = CustomerContent;
             NotBlank = true;
         }
     }

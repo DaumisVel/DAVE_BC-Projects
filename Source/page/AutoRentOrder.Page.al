@@ -15,24 +15,22 @@ page 65019 "DAVEAutoRentOrder"
                 Caption = 'Rental General Info';
                 field("No."; Rec."No.")
                 {
-                    Caption = 'Rental No.';
+
                 }
                 field(CustomerNo; Rec."CustomerNo")
                 {
-                    Caption = 'Customer No.';
                     LookupPageId = "Customer List";
                 }
                 field(DriverLicenseImage; Rec.DriverLicenseImage)
                 {
-                    Caption = 'Driver License Image';
+
                 }
                 field(RentalDate; Rec."RentalDate")
                 {
-                    Caption = 'Rental Date';
+
                 }
                 field(CarNo; Rec."CarNo")
                 {
-                    Caption = 'Vehicle ID';
                     LookupPageId = DAVEAutos;
                     trigger OnValidate()
                     var
@@ -44,19 +42,18 @@ page 65019 "DAVEAutoRentOrder"
                 }
                 field(ReservedFrom; Rec."ReservedFrom")
                 {
-                    Caption = 'Reserved From';
+
                 }
                 field(ReservedUntil; Rec."ReservedUntil")
                 {
-                    Caption = 'Reserved Until';
+
                 }
                 field(TotalAmount; Rec."TotalAmount")
                 {
-                    Caption = 'Total Rental Amount';
+
                 }
                 field(Status; Rec."Status")
                 {
-                    Caption = 'Rental Status';
                     Editable = false;
                 }
             }

@@ -1,6 +1,6 @@
 table 65010 DAVEAutoSetup
 {
-    DataClassification = ToBeClassified;
+    DataClassification = SystemMetadata;
     Caption = 'Auto Setup';
 
     fields

@@ -1,7 +1,7 @@
 table 65012 DAVEAutoModel
 {
     Caption = 'Auto Model';
-    DataClassification = ToBeClassified;
+    DataClassification = SystemMetadata;
     LookupPageId = DAVEAutoModels;
     DrillDownPageId = "DAVEAutoModels";
 

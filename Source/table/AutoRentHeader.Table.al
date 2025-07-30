@@ -3,7 +3,6 @@ table 65016 "DAVEAutoRentHeader"
     Caption = 'Vehicle Rental Header';
     LookupPageId = "DAVEAutoRentOrder";
     DrillDownPageId = "DAVEAutoRentOrders";
-    DataClassification = CustomerContent;
     Permissions =
         tabledata Customer = R,
         tabledata DAVEAuto = R,
@@ -17,12 +16,14 @@ table 65016 "DAVEAutoRentHeader"
         {
             Caption = 'Rental No.';
             ToolTip = 'Specifies the unique rental document number.';
+            DataClassification = SystemMetadata;
         }
 
         field(10; CustomerNo; Code[20])
         {
             Caption = 'Customer No.';
             ToolTip = 'Specifies the customer renting the vehicle.';
+            DataClassification = CustomerContent;
             TableRelation = Customer."No.";
             NotBlank = true;
             trigger OnValidate()
@@ -34,23 +35,18 @@ table 65016 "DAVEAutoRentHeader"
 
         }
 
-        field(5000; DriverLicenseImage; Media)
-        {
-            Caption = 'Driver License';
-            ToolTip = 'Stores the image of the drivers license.';
-            DataClassification = EndUserIdentifiableInformation;
-        }
-
         field(12; RentalDate; Date)
         {
             Caption = 'Rental Date';
             ToolTip = 'Specifies the date when the rental order becomes valid.';
+            DataClassification = CustomerContent;
         }
 
         field(13; CarNo; Code[20])
         {
             Caption = 'Vehicle ID';
             ToolTip = 'Specifies the vehicle No. being rented.';
+            DataClassification = SystemMetadata;
             TableRelation = DAVEAuto."No.";
             NotBlank = true;
             trigger OnValidate()
@@ -65,6 +61,7 @@ table 65016 "DAVEAutoRentHeader"
         {
             Caption = 'Reserved From';
             ToolTip = 'Specifies the start date of the reservation.';
+            DataClassification = CustomerContent;
             NotBlank = true;
 
             trigger OnValidate()
@@ -84,6 +81,7 @@ table 65016 "DAVEAutoRentHeader"
         {
             Caption = 'Reserved Until';
             ToolTip = 'Specifies the end date of the reservation.';
+            DataClassification = CustomerContent;
             NotBlank = true;
 
             trigger OnValidate()
@@ -103,7 +101,7 @@ table 65016 "DAVEAutoRentHeader"
         field(16; TotalAmount; Decimal)
         {
             Caption = 'Total Rental Amount';
-            ToolTip = 'Specifies the total amount calculated from rental lines.';
+            ToolTip = 'Looks up the total amount of the rental order based on the lines.';
             CalcFormula = sum(DAVEAutoRentLine.Amount where(DocumentNo = field("No.")));
             Editable = false;
             FieldClass = FlowField;
@@ -113,14 +111,22 @@ table 65016 "DAVEAutoRentHeader"
         {
             Caption = 'Rental Status';
             ToolTip = 'Indicates whether the rental is open or issued.';
+            DataClassification = SystemMetadata;
             InitValue = Open;
         }
         field(18; "No. Series"; Code[20])
         {
             Caption = 'No. Series';
             Editable = false;
+            DataClassification = SystemMetadata;
             TableRelation = "No. Series";
             AllowInCustomizations = Never;
+        }
+        field(5000; DriverLicenseImage; Media)
+        {
+            Caption = 'Driver License';
+            ToolTip = 'Stores the image of the drivers license.';
+            DataClassification = CustomerContent;
         }
     }
 

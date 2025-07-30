@@ -59,14 +59,14 @@ fields
         Caption = 'Unit Price';
         ToolTip = 'Specifies the price per unit of the item or resource.';
         Editable = false;
-        DataClassification = SystemMetadata;
+        DataClassification = CustomerContent;
     }
     field(15; Amount; Decimal)
     {
         Caption = 'Line Amount';
         ToolTip = 'Specifies the total amount for this line, calculated as Quantity * Unit Price.';
         Editable = false;
-        DataClassification = SystemMetadata;
+        DataClassification = CustomerContent;
     }
 }
 

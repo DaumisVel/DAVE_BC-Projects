@@ -3,7 +3,7 @@ page 65014 "DAVEAutoCard"
     PageType = Card;
     SourceTable = DAVEAuto;
     Caption = 'Auto Card';
-    UsageCategory = Documents;
+    UsageCategory = Administration;
     ApplicationArea = All;
 
     layout
