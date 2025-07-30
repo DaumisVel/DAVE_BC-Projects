@@ -2,7 +2,7 @@ page 65018 "DAVEAutoRentOrders"
 {
     PageType = List;
     SourceTable = DAVEAutoRentHeader;
-    Caption = 'Auto Rent Orders';
+    Caption = 'Auto Rental Orders';
     UsageCategory = Lists;
     ApplicationArea = All;
     CardPageId = DAVEAutoRentOrder;
@@ -43,7 +43,7 @@ page 65018 "DAVEAutoRentOrders"
                 }
                 field(Status; Rec."Status")
                 {
-          
+
                 }
             }
         }

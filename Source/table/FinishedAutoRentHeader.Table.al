@@ -1,6 +1,6 @@
 table 65019 "DAVEFinishedAutoRentHeader"
 {
-    Caption = 'Completed Rental Header';
+    Caption = 'Finished Rental Header';
     LookupPageId = "DAVEFininshedAutoRentOrders";
     DrillDownPageId = "DAVEFinishedAutoRentOrder";
 

@@ -1,6 +1,6 @@
 table 65017 "DAVEAutoRentLine"
 {
-    Caption = 'Vehicle Rental Line';
+    Caption = 'Auto Rental Line';
     DataClassification = EndUserIdentifiableInformation;
     Permissions =
         tabledata DAVEAutoRentHeader = R,

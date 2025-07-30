@@ -1,6 +1,6 @@
 table 65020 "DAVEFinishedAutoRentLine"
 {
-    Caption = 'Completed Rental Line';
+    Caption = 'Finished Rental Line';
 
 fields
 {

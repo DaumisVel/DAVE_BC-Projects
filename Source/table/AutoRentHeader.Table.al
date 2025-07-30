@@ -1,6 +1,6 @@
 table 65016 "DAVEAutoRentHeader"
 {
-    Caption = 'Vehicle Rental Header';
+    Caption = 'Auto Rental Header';
     LookupPageId = "DAVEAutoRentOrder";
     DrillDownPageId = "DAVEAutoRentOrders";
     Permissions =
